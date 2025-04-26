@@ -1,0 +1,105 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using MusicStore.Model.Abstract;
+using MusicStore.Model.Entities;
+
+public class ArtistController : Controller
+{
+    private readonly IEntitiesRepository<ArtistEntities> _artistRepository;
+
+    public ArtistController(IEntitiesRepository<ArtistEntities> artistRepository)
+    {
+        _artistRepository = artistRepository;
+    }
+
+ 
+    public IActionResult Index()
+    {
+        var artists = _artistRepository.GetAll().ToList();
+        return View(artists);
+    }
+
+
+    public  IActionResult Details(int id)
+    {
+        var artist =  _artistRepository.Get(id);
+        if (artist == null)
+        {
+            return NotFound();
+        }
+        return View(artist);
+    }
+
+
+    public IActionResult Create()
+    {
+        return View();
+    }
+
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public  IActionResult Create(ArtistEntities artist)
+    {
+        if (ModelState.IsValid)
+        {
+             _artistRepository.Add(artist);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(artist);
+    }
+
+
+    public IActionResult Edit(int id)
+    {
+        var artist =  _artistRepository.Get(id);
+        if (artist == null)
+        {
+            return NotFound();
+        }
+        return View(artist);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(int id, ArtistEntities artist)
+    {
+        if (id != artist.Id)
+        {
+            return BadRequest();
+        }
+
+        if (ModelState.IsValid)
+        {
+            _artistRepository.Update(artist);
+            return RedirectToAction(nameof(Index));
+        }
+        return View(artist);
+    }
+
+ 
+    public IActionResult Delete(int id)
+    {
+        var artist = _artistRepository.Get(id);
+        if (artist == null)
+        {
+            return NotFound();
+        }
+        return View(artist);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        var artist = _artistRepository.Get(id);
+        if (artist == null)
+        {
+            return NotFound();
+        }
+
+        _artistRepository.Remove(artist);
+        return RedirectToAction(nameof(Index));
+    }
+}

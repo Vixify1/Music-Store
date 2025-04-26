@@ -1,0 +1,46 @@
+﻿@model MusicStore.Models.CartItemViewModel
+
+<h2>Edit Cart Item</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="CartItemId" />
+    <input type="hidden" asp-for="AlbumId" />
+    <input type="hidden" asp-for="Title" />
+    <input type="hidden" asp-for="Artist" />
+    <input type="hidden" asp-for="Price" />
+
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Artist">Artist</label>
+        <input asp-for="Artist" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Price">Price</label>
+        <input asp-for="Price" class="form-control" disabled />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Quantity">Quantity</label>
+        <input asp-for="Quantity" class="form-control" min="1" />
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Subtotal</label>
+        <input value="@Model.Subtotal.ToString("C")" class="form-control" disabled />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

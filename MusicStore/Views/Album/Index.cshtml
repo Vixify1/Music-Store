@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MusicStore.Models.AlbumViewModel>
+@{
+    ViewData["Title"] = "Album";
+}
+
+<h2>Albums</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New Album</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Release Date</th>
+            <th>Genre</th>
+            <th>Price</th>
+            <th>Cover</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@item.Artist</td>
+                <td>@item.ReleaseDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.GenreName</td>
+                <td>@item.Price.ToString("C")</td>
+
+                <td>
+                    @if (!string.IsNullOrEmpty(item.coverUrl))
+                    {
+                        <img src="@item.coverUrl" alt="@item.Title" style="max-width: 100px; max-height: 100px;" />
+                    }
+                </td>
+                <td>
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex align-items-center">
+                        <input type="hidden" name="albumId" value="@item.Id" />
+                        <div class="input-group" style="width: 150px;">
+                            <input type="number" name="quantity" value="1" min="1" class="form-control"
+                                style="width: 60px;" />
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

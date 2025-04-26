@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/MusicStore/FileContentIndex
+/.vs
+/MusicStore/bin/Debug/net8.0
+/MusicStore/obj
+/MusicStore.Model/obj
+/MusicStore.Model/bin/Debug/net8.0

@@ -1,0 +1,19 @@
+﻿@model MusicStore.Model.Entities.ArtistEntities
+
+<h2>Artist Details</h2>
+
+<dl class="row">
+    <dt class="col-sm-2">Name</dt>
+    <dd class="col-sm-10">@Model.Name</dd>
+
+    <dt class="col-sm-2">Genre</dt>
+    <dd class="col-sm-10">@Model.Genre</dd>
+
+    <dt class="col-sm-2">Country</dt>
+    <dd class="col-sm-10">@Model.Country</dd>
+</dl>
+
+<p>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</p>

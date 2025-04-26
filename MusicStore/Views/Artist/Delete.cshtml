@@ -1,0 +1,21 @@
+﻿@model MusicStore.Model.Entities.ArtistEntities
+
+<h2>Confirm Delete</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete this artist?
+</div>
+
+<div class="mb-3">
+    <strong>ArtistId:</strong> @Model.Id <br />
+    <strong>ArtistName:</strong> @Model.Name <br />
+    <strong>ArtistGenre:</strong> @Model.Genre <br />
+    <strong>ArtistCountry:</strong> @Model.Country <br />
+   
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>

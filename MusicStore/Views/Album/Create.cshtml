@@ -1,0 +1,66 @@
+﻿@model MusicStore.Models.CreateAlbumViewModel
+@{
+    ViewData["Title"] = "Create Album";
+}
+<h2>Create Album</h2>
+
+@if (TempData["ValidationErrors"] != null)
+{
+    <div class="alert alert-danger">
+        <h4>Please correct the following errors:</h4>
+        <ul>
+            @foreach (var error in (List<string>)TempData["ValidationErrors"])
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SelectedArtist">Artist</label>
+        <select asp-for="SelectedArtist" class="form-control" asp-items="Model.Artists">
+            <option value="">-- Select Artist --</option>
+        </select>
+        <span asp-validation-for="SelectedArtist" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ReleaseDate"></label>
+        <input asp-for="ReleaseDate" class="form-control" type="date" />
+        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="GenreId">Genre</label>
+        <select asp-for="GenreId" class="form-control" asp-items="Model.Genres">
+            <option value="">-- Select Genre --</option>
+        </select>
+        <span asp-validation-for="GenreId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="coverUrl">Cover URL</label>
+        <input asp-for="coverUrl" class="form-control" />
+        <span asp-validation-for="coverUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Create</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Cancel</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

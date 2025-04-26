@@ -1,0 +1,171 @@
+﻿using MusicStore.Model.Abstract;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using MusicStore.Model.Context;
+
+
+
+namespace MusicStore.Model.Concrete
+{
+
+    public class EntitiesRepository<T> : IEntitiesRepository<T> where T : class, new()
+    {
+        protected IApplicationDbContext _context;
+        protected DbSet<T> _table = null;
+        private bool _disposed = false;
+        public EntitiesRepository(IApplicationDbContext context)
+        {
+            _context = context;
+            _table = _context.Set<T>();
+        }
+        protected EntitiesRepository(ApplicationDbContext _contex)
+        {
+            _context = _contex;
+            _table = _contex.Set<T>();
+        }
+
+        public int Count => _table.Count();
+
+        public virtual void Add(T entity)
+        {
+            _table.Add(entity);
+            SaveChanges();
+        }
+
+        public virtual void AddRange(IEnumerable<T> entities)
+        {
+            _table.AddRange(entities);
+            SaveChanges();
+        }
+
+        public virtual void Remove(T entity)
+        {
+            _table.Remove(entity);
+            SaveChanges();
+        }
+
+        public virtual void RemoveRange(IEnumerable<T> entities)
+        {
+            _table.RemoveRange(entities);
+            SaveChanges();
+        }
+
+        public T Get(int? id) => _table.Find(id);
+        public T Get(long? idOne, long? idTwo) => _table.Find(idOne, idTwo);
+        public T Get(string id) => _table.Find(id);
+
+        public T Get(Expression<Func<T, bool>> where)
+        => _table.FirstOrDefault(where);
+
+        public T Get<TIncludeField>(Expression<Func<T, bool>> where, Expression<Func<T, ICollection<TIncludeField>>> include)
+            => _table.Where(where).Include(include).FirstOrDefault();
+
+        public T Get<TIncludeField>(Expression<Func<T, bool>> where, Expression<Func<T, TIncludeField>> include)
+            => _table.Where(where).Include(include).FirstOrDefault();
+
+        public virtual IQueryable<T> GetAll() => _table;
+
+        public virtual IQueryable<T> GetAllQueryable() => _table;
+
+        public IQueryable<T> GetAll<TIncludeField>(Expression<Func<T, ICollection<TIncludeField>>> include)
+            => _table.Include(include);
+
+        public IQueryable<T> GetAll<TIncludeField>(Expression<Func<T, TIncludeField>> include)
+            => _table.Include(include);
+
+        public IQueryable<T> GetAll<TSortField>(Expression<Func<T, TSortField>> orderBy, bool ascending)
+            => ascending ? _table.OrderBy(orderBy) : _table.OrderByDescending(orderBy);
+
+        public IQueryable<T> GetAll<TIncludeField, TSortField>(
+            Expression<Func<T, ICollection<TIncludeField>>> include, Expression<Func<T, TSortField>> orderBy, bool ascending)
+            => ascending ? _table.Include(include).OrderBy(orderBy) : _table.Include(include).OrderByDescending(orderBy);
+
+        public IQueryable<T> GetAll<TIncludeField, TSortField>(
+            Expression<Func<T, TIncludeField>> include, Expression<Func<T, TSortField>> orderBy, bool ascending)
+            => ascending ? _table.Include(include).OrderBy(orderBy) : _table.Include(include).OrderByDescending(orderBy);
+
+        public IQueryable<T> GetSome(Expression<Func<T, bool>> where) => _table.Where(where);
+
+        public IQueryable<T> GetSome<TIncludeField>(Expression<Func<T, bool>> where, Expression<Func<T, ICollection<TIncludeField>>> include)
+            => _table.Where(where).Include(include);
+
+        public IQueryable<T> GetSome<TIncludeField>(Expression<Func<T, bool>> where, Expression<Func<T, TIncludeField>> include)
+            => _table.Where(where).Include(include);
+
+        public IQueryable<T> GetSome<TSortField>(
+            Expression<Func<T, bool>> where, Expression<Func<T, TSortField>> orderBy, bool ascending)
+            => ascending ? _table.Where(where).OrderBy(orderBy) : _table.Where(where).OrderByDescending(orderBy);
+
+        public IQueryable<T> GetSome<TIncludeField, TSortField>(
+            Expression<Func<T, bool>> where, Expression<Func<T, ICollection<TIncludeField>>> include,
+            Expression<Func<T, TSortField>> orderBy, bool ascending)
+            => ascending ?
+            _table.Where(where).OrderBy(orderBy).Include(include) :
+            _table.Where(where).OrderByDescending(orderBy).Include(include);
+
+        public IQueryable<T> GetSome<TIncludeField, TSortField>(
+            Expression<Func<T, bool>> where, Expression<Func<T, TIncludeField>> include,
+            Expression<Func<T, TSortField>> orderBy, bool ascending)
+            => ascending ?
+            _table.Where(where).OrderBy(orderBy).Include(include) :
+            _table.Where(where).OrderByDescending(orderBy).Include(include);
+
+        public int SaveChanges()
+        {
+            var saved = false;
+            var attempt = 0;
+            int result = 0;
+            while (!saved && attempt <= 3)
+            {
+                try
+                {
+                    // Attempt to save changes to the database
+                    result = _context.SaveChanges();
+                    saved = true;
+                }
+                catch (Exception ex)
+                {
+                    //Should handle intelligently
+                    attempt++;
+                    throw;
+                }
+            }
+            return result;
+        }
+        //    public  TTarget Map<TSource, TTarget>(TSource source)
+        //where TTarget : new()
+        //    {
+        //        TTarget target = new TTarget();
+        //        var sourceProperties = typeof(TSource).GetProperties();
+        //        var targetProperties = typeof(TTarget).GetProperties();
+
+        //        foreach (var targetProp in targetProperties)
+        //        {
+        //            var sourceProp = sourceProperties.FirstOrDefault(p => p.Name == targetProp.Name
+        //                                                                  && p.PropertyType == targetProp.PropertyType);
+        //            if (sourceProp != null && sourceProp.CanRead && targetProp.CanWrite)
+        //            {
+        //                var value = sourceProp.GetValue(source);
+        //                targetProp.SetValue(target, value);
+        //            }
+        //        }
+
+        //        return target;
+        //    }
+        public virtual void Update(T entity)
+        {
+            _table.Update(entity);
+            SaveChanges();
+        }
+
+        public T Get(long? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GetByCondition(Func<object, bool> value)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

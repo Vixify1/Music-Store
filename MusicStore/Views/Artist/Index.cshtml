@@ -1,0 +1,33 @@
+﻿@model List<MusicStore.Model.Entities.ArtistEntities>
+
+<h2>Artists</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Genre</th>
+            <th>Country</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artist in Model)
+        {
+            <tr>
+                <td>@artist.Name</td>
+                <td>@artist.Genre</td>
+                <td>@artist.Country</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@artist.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@artist.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@artist.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

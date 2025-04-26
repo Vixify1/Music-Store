@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MusicStore</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CodersSportStore.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .bg-custom {
+            background-color: #9bbe2c !important;
+        }
+
+        .text-custom {
+            color: #9bbe2c !important;
+        }
+
+        .btn-custom {
+            background-color: #9bbe2c;
+            color: white;
+            border: none;
+        }
+
+        .btn-custom:hover {
+            background-color: #88a824;
+        }
+
+        .nav-link.active,
+        .nav-link:hover {
+            color: #9bbe2c !important;
+            font-weight: bold;
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            height: 100vh;
+            position: fixed;
+        }
+
+        .content-area {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        .hero {
+            background: url('/images/background.png') no-repeat center center/cover;
+            background-color: #000;
+            color: white;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .menu-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+
+        .cart {
+            position: relative;
+        }
+
+        .badge {
+            background: #00ff9f;
+            color: #000;
+            font-size: 0.6rem;
+            border-radius: 50%;
+            padding: 2px 5px;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
+
+        .main-content {
+            text-align: center;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00ff9f;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .follow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .menu-button {
+            border: 1px solid white;
+            border-radius: 50%;
+            padding: 0.7rem 1.5rem;
+            text-align: center;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-right: 2rem;
+        }
+
+        .auth-button {
+            color: white;
+            text-decoration: none;
+            padding: 0.7rem 1.5rem;
+            border: 2px solid white;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-button:hover {
+            background: white;
+            color: black;
+            transform: translateY(-2px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="hero">
+            @if (!Context.Request.Path.Value.Contains("Authentication"))
+            {
+                <header class="header">
+                    <div class="logo">MusicStore</div>
+                    <div class="header-right">
+                        <div class="auth-buttons">
+                            <a asp-controller="Authentication" asp-action="Login" class="auth-button">Login</a>
+                            <a asp-controller="Authentication" asp-action="Register" class="auth-button">Register</a>
+                        </div>
+                        <div class="menu-icons">
+                            <div class="icon">|||</div>
+                            <div class="icon">
+                                <span class="cart">🛒<span class="badge">0</span></span>
+                            </div>
+                            <div class="menu-button">Menu</div>
+                        </div>
+                    </div>
+                </header>
+
+                <main class="main-content">
+                    <nav class="nav-links">
+                        <a href="#">Beats</a>
+                        <a href="#">Dates</a>
+                        <a href="#">Photos</a>
+                        <a href="#">Shop</a>
+                    </nav>
+                    @RenderBody()
+                </main>
+            }
+            else
+            {
+                @RenderBody()
+            }
+
+            <footer class="footer">
+                <div class="follow">
+                    <span>🔗</span> Follow
+                </div>
+                <div class="copyright">
+                    © Copyright @DateTime.Now.Year MusicStore.
+                </div>
+            </footer>
+        </div>
+    }
+    else
+    {
+        <!-- Top Navbar -->
+        <header class="bg-custom text-white p-3">
+            <div class="container-fluid">
+                <h1 class="h4 m-0">MusicStore</h1>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <ul class="nav flex-column">
+                @if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-area="Admin"> Admin Home </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Customer" asp-action="Index"> Customers </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Artist" asp-action="Index"> Artists </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Genre" asp-action="Index"> Genres </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Album" asp-action="Index"> Albums </a>
+                    </li>
+                }
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-dark" asp-controller="UserProfile" asp-action="Index"> Profile </a>
+                </li>
+
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-dark" asp-controller="Order" asp-action="Index"> My Orders </a>
+                </li>
+
+                <li class="nav-item mt-3">
+                    <form method="post" asp-controller="Authentication" asp-action="Logout">
+                        @Html.AntiForgeryToken()
+                        <button class="btn btn-sm btn-danger w-100">🚪 Logout</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-area">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="border-top footer text-muted mt-auto text-center p-3">
+            &copy; @DateTime.Now.Year - MusicStore - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </footer>
+    }
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

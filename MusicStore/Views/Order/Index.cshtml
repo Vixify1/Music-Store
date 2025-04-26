@@ -1,0 +1,51 @@
+@model IEnumerable<MusicStore.Models.Order.OrderViewModel>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<h2>My Orders</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        You haven't placed any orders yet.
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Total Amount</th>
+                <th>Items</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <span
+                            class="badge @(order.Status == MusicStore.Model.Entities.OrderStatus.Completed ? "bg-success" : 
+                                                                  order.Status == MusicStore.Model.Entities.OrderStatus.Pending ? "bg-warning" :
+                                                                  order.Status == MusicStore.Model.Entities.OrderStatus.Cancelled ? "bg-danger" : "bg-secondary")">
+                        @order.Status
+                    </span>
+                </td>
+                <td>@order.TotalAmount.ToString("C")</td>
+                <td>@order.OrderItems.Count</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-info btn-sm">
+                        <i class="fas fa-info-circle"></i> Details
+                    </a>
+                </td>
+            </tr>
+                }
+        </tbody>
+    </table>
+}
