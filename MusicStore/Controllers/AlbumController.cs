@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicStore.Model.Entities;
 using MusicStore.Model.Abstract;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicStore.Models
 {
@@ -21,7 +22,7 @@ namespace MusicStore.Models
             _genreRepository = genreRepository;
             _artistRepository = artistRepository;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             var albums = _albumRepository.GetAll()
@@ -41,6 +42,7 @@ namespace MusicStore.Models
 
             return View(viewModels);
         }
+        [Authorize]
 
         public IActionResult Details(int? id)
         {
@@ -66,6 +68,7 @@ namespace MusicStore.Models
 
             return View(viewModel);
         }
+        [Authorize]
 
         public IActionResult Create()
         {
@@ -118,6 +121,7 @@ namespace MusicStore.Models
             _albumRepository.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+        [Authorize]
 
         public IActionResult Edit(int? id)
         {
@@ -163,6 +167,7 @@ namespace MusicStore.Models
             ViewBag.Genres = new SelectList(_genreRepository.GetAll(), "GenreId", "Name", album.GenreId);
             return View(album);
         }
+        [Authorize]
 
         public IActionResult Delete(int? id)
         {

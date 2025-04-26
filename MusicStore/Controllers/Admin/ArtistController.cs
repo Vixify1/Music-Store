@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MusicStore.Model.Abstract;
 using MusicStore.Model.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 public class ArtistController : Controller
 {
@@ -13,15 +14,17 @@ public class ArtistController : Controller
         _artistRepository = artistRepository;
     }
 
- 
+    [Authorize]
+
     public IActionResult Index()
     {
         var artists = _artistRepository.GetAll().ToList();
         return View(artists);
     }
+    [Authorize]
 
 
-    public  IActionResult Details(int id)
+    public IActionResult Details(int id)
     {
         var artist =  _artistRepository.Get(id);
         if (artist == null)
@@ -30,6 +33,7 @@ public class ArtistController : Controller
         }
         return View(artist);
     }
+    [Authorize]
 
 
     public IActionResult Create()
@@ -50,6 +54,7 @@ public class ArtistController : Controller
         return View(artist);
     }
 
+    [Authorize]
 
     public IActionResult Edit(int id)
     {
@@ -78,7 +83,8 @@ public class ArtistController : Controller
         return View(artist);
     }
 
- 
+    [Authorize]
+
     public IActionResult Delete(int id)
     {
         var artist = _artistRepository.Get(id);
