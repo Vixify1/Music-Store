@@ -20,7 +20,7 @@
         html {
             height: 100%;
             font-family: 'Poppins', sans-serif;
-        }
+        } 
 
         .bg-custom {
             background-color: #9bbe2c !important;
@@ -60,9 +60,21 @@
             padding: 20px;
         }
 
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+
         .hero {
-            background: url('/images/background.png') no-repeat center center/cover;
-            background-color: #000;
+            
+            background-color: transparent;
             color: white;
             position: relative;
             height: 100%;
@@ -186,13 +198,20 @@
 </head>
 
 <body>
+    <video autoplay muted loop id="bg-video">
+        <source src="https://motionbgs.com/media/5582/flowing-dots.960x540.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     @if (!User.Identity.IsAuthenticated)
     {
         <div class="hero">
             @if (!Context.Request.Path.Value.Contains("Authentication"))
             {
                 <header class="header">
-                    <div class="logo">MusicStore</div>
+                    <div class="logo">
+                        <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo" style="height: 50px;">
+                    </div>
                     <div class="header-right">
                         <div class="auth-buttons">
                             <a asp-controller="Authentication" asp-action="Login" class="auth-button">Login</a>
@@ -203,16 +222,16 @@
                             <div class="icon">
                                 <span class="cart">🛒<span class="badge">0</span></span>
                             </div>
-                            <div class="menu-button">Menu</div>
+                         @*    <div class="menu-button">Menu</div> *@
                         </div>
                     </div>
                 </header>
 
                 <main class="main-content">
                     <nav class="nav-links">
-                        <a href="#">Beats</a>
-                        <a href="#">Dates</a>
-                        <a href="#">Photos</a>
+                        <a href="#">Album</a>
+                        <a href="#">Artist</a>
+                        <a href="#">Genre</a>
                         <a href="#">Shop</a>
                     </nav>
                     @RenderBody()
