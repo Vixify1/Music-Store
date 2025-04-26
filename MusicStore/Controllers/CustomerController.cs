@@ -5,6 +5,7 @@ using MusicStore.Model.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MusicStore.Controllers
 {
@@ -24,6 +25,7 @@ namespace MusicStore.Controllers
             _userManager = userManager;
         }
 
+        [Authorize]
         public async Task<IActionResult> Index(string FirstNameFilter, string LastNameFilter)
         {
             // First get the base query from the repository
@@ -84,6 +86,7 @@ namespace MusicStore.Controllers
         }
 
 
+        [Authorize]
 
 
         [HttpGet]
@@ -157,6 +160,7 @@ namespace MusicStore.Controllers
             _customerRepository.Add(customer);
             return RedirectToAction("Index");
         }
+        [Authorize]
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
@@ -248,6 +252,7 @@ namespace MusicStore.Controllers
 
             return RedirectToAction("Index");
         }
+        [Authorize]
 
         [HttpGet]
         public async Task<ActionResult> Details(int id)
@@ -288,6 +293,7 @@ namespace MusicStore.Controllers
 
             return View(model);
         }
+        [Authorize]
 
         [HttpGet]
         public async Task<ActionResult> Delete(int id)

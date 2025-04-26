@@ -3,6 +3,7 @@ using MusicStore.Model.Abstract;
 using MusicStore.Models.Admin.Genre;
 using MusicStore.Model.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 namespace MusicStore.Controllers.Admin
 {
     public class GenreController : Controller
@@ -14,6 +15,7 @@ namespace MusicStore.Controllers.Admin
             _genreRepository = genreRepository;
         }
 
+        [Authorize]
         public IActionResult Index(string searchName)
         {
 
@@ -36,6 +38,7 @@ namespace MusicStore.Controllers.Admin
             };
             return View(genre);
         }
+        [Authorize]
 
         public IActionResult Create()
         {
@@ -54,6 +57,7 @@ namespace MusicStore.Controllers.Admin
 
             return RedirectToAction("Index");
         }
+        [Authorize]
 
         public IActionResult Edit(int id)
         {
@@ -88,6 +92,7 @@ namespace MusicStore.Controllers.Admin
 
             return RedirectToAction("Index");
         }
+        [Authorize]
 
         public IActionResult Delete(int id)
         {
