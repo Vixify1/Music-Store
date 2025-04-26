@@ -1,0 +1,150 @@
+﻿@model MusicStore.Models.Admin.Order.OrderManagementViewModel
+
+@{
+    ViewData["Title"] = "Order Management";
+   
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h5 class="mb-0">Order Management</h5>
+        </div>
+
+        <!-- Filter and Search Section -->
+        <form asp-action="OrderManagement" method="get" class="row mb-4">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search by order ID or customer...">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Statuses</option>
+                    @foreach (var status in Model.StatusOptions)
+                    {
+                        <option value="@status" selected="@(status == Model.Status)">
+                            @status
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="sortOrder" class="form-select" onchange="this.form.submit()">
+                    <option value="date_desc" selected="@(Model.SortOrder == "date_desc")">Newest First</option>
+                    <option value="date_asc" selected="@(Model.SortOrder == "date_asc")">Oldest First</option>
+                    <option value="total_desc" selected="@(Model.SortOrder == "total_desc")">Highest Total</option>
+                    <option value="total_asc" selected="@(Model.SortOrder == "total_asc")">Lowest Total</option>
+                    <option value="customer" selected="@(Model.SortOrder == "customer")">Customer Name</option>
+                    <option value="status" selected="@(Model.SortOrder == "status")">Status</option>
+                </select>
+            </div>
+            <div class="col-md-3 text-end">
+                <span class="badge bg-info">Total Orders: @Model.TotalOrders</span>
+                <span class="badge bg-success">Total Sales: @Model.TotalSales.ToString("C")</span>
+            </div>
+        </form>
+
+        <!-- Orders Table -->
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.DateSortParam" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status" asp-route-page="@Model.CurrentPage">
+                                Order Date
+                                <i class="@Model.GetSortIconClass("date")"></i>
+                            </a>
+                        </th>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>
+                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.StatusSortParam" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status" asp-route-page="@Model.CurrentPage">
+                                Status
+                                <i class="@Model.GetSortIconClass("status")"></i>
+                            </a>
+                        </th>
+                        <th>Items</th>
+                        <th>
+                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.TotalSortParam" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status" asp-route-page="@Model.CurrentPage">
+                                Total
+                                <i class="@Model.GetSortIconClass("total")"></i>
+                            </a>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.OrderDate.ToString("MMM dd, yyyy HH:mm")</td>
+                            <td>#@order.OrderId</td>
+                            <td>@(string.IsNullOrEmpty(order.UserId) ? "Guest" : order.UserId)</td>
+                            <td>
+                                    @order.Status
+                                
+                            </td>
+                            <td>@order.OrderItems.Count</td>
+                            <td>@order.TotalAmount.ToString("C")</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-sm btn-info">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-controller="Order" asp-route-id="@order.OrderId" class="btn btn-sm btn-warning">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@order.OrderId" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    @if (!Model.Orders.Any())
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">No orders found.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <div class="d-flex justify-content-center mt-4">
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+                            <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage - 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
+                                Previous
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                <a class="page-link" asp-action="OrderManagement" asp-route-page="@i" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
+                                    @i
+                                </a>
+                            </li>
+                        }
+
+                        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+                            <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage + 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
+                                Next
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        }
+    </div>
+</div>
+
