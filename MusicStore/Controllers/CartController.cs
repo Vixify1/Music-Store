@@ -136,6 +136,67 @@ namespace MusicStore.Controllers
             TempData["SuccessMessage"] = $"{quantity} {albumItem.Title} {(quantity > 1 ? "items" : "item")} added to cart!";
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult ApplyCoupon(string couponCode)
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+            var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
+
+            if (customer == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var cart = _cartRepository.GetAll()
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Album)
+                .FirstOrDefault(c => c.CustomerId == customer.Id);
+
+            if (cart == null || !cart.CartItems.Any())
+            {
+                TempData["Message"] = "Your cart is empty.";
+                return RedirectToAction("Index");
+            }
+
+            var viewModel = new CartViewModel
+            {
+                CartId = cart.CartId,
+                CustomerId = cart.CustomerId,
+                Items = cart.CartItems.Select(item => new CartItemViewModel
+                {
+                    CartItemId = item.CartItemId,
+                    AlbumId = item.Id,
+                    Title = item.Album?.Title ?? "Unknown",
+                    Artist = item.Album?.Artist ?? "Unknown",
+                    Price = item.Album?.Price ?? 0,
+                    Quantity = item.Quantity,
+                    Subtotal = (item.Album?.Price ?? 0) * item.Quantity
+                }).ToList(),
+                TotalAmount = cart.CartItems.Sum(item => (item.Album?.Price ?? 0) * item.Quantity),
+                CouponCode = couponCode
+            };
+
+            // 🔥 Here is the coupon logic (you can extend this easily)
+            if (!string.IsNullOrEmpty(couponCode))
+            {
+                switch (couponCode.ToUpper())
+                {
+                    case "SAVE10":
+                        viewModel.DiscountAmount = viewModel.TotalAmount * 0.10m; // 10% off
+                        break;
+                    case "SAVE20":
+                        viewModel.DiscountAmount = viewModel.TotalAmount * 0.20m; // 20% off
+                        break;
+                    default:
+                        TempData["ErrorMessage"] = "Invalid coupon code.";
+                        viewModel.CouponCode = string.Empty;
+                        viewModel.DiscountAmount = 0;
+                        break;
+                }
+            }
+
+            return View("Index", viewModel);
+        }
 
         public IActionResult Clear()
         {
