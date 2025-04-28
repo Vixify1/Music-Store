@@ -41,12 +41,25 @@
                     </tr>
                 }
             </tbody>
+            <
             <tfoot>
                 <tr>
-                    <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                    <td colspan="4" class="text-right"><strong>Subtotal:</strong></td>
                     <td><strong>@Model.TotalAmount.ToString("C")</strong></td>
                 </tr>
+                @if (!string.IsNullOrEmpty(Model.CouponCode))
+                {
+                    <tr>
+                        <td colspan="4" class="text-right"><strong>Discount (@Model.CouponCode):</strong></td>
+                        <td><strong class="text-success">-@Model.DiscountAmount.ToString("C")</strong></td>
+                    </tr>
+                }
+                <tr>
+                    <td colspan="4" class="text-right"><strong>Grand Total:</strong></td>
+                    <td><strong>@Model.GrandTotal.ToString("C")</strong></td>
+                </tr>
             </tfoot>
+
         </table>
     </div>
     <div class="col-md-4">

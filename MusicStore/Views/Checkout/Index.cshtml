@@ -4,59 +4,96 @@
     ViewData["Title"] = "Checkout";
 }
 
-<h2>Checkout</h2>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<MusicStore.Model.Entities.ApplicationUser> UserManager
+@inject SignInManager<MusicStore.Model.Entities.ApplicationUser> SignInManager
 
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        @TempData["Message"]
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
+@{
+    ViewData["Title"] = "Checkout";
+    var user = await UserManager.GetUserAsync(User); // get logged-in user
 }
+<div class="container py-5">
+    <div class="row">
+        <!-- Billing Details Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="card bg-dark text-white p-4">
+                <h2 class="mb-4">Billing details</h2>
+                <form asp-action="Checkout">
+                    @Html.AntiForgeryToken()
 
-<div class="row">
-    <div class="col-md-8">
-        <h4>Order Summary</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td>@item.Title</td>
-                        <td>@item.Artist</td>
-                        <td>@item.Price.ToString("C")</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Subtotal.ToString("C")</td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="4" class="text-right"><strong>Total:</strong></td>
-                    <td><strong>@Model.TotalAmount.ToString("C")</strong></td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <div class="col-md-4">
-        <h4>Complete Your Order</h4>
-        <form asp-action="ProcessOrder" method="post">
-            @Html.AntiForgeryToken()
-            <div class="form-group">
-                <button type="submit" class="btn btn-success btn-block">Place Order</button>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="FirstName" class="form-label">First name *</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="FirstName" name="FirstName" value="@user?.FirstName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="LastName" class="form-label">Last name *</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="LastName" name="LastName" value="@user?.LastName" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Phone" class="form-label">Phone *</label>
+                        <input type="tel" class="form-control bg-secondary text-white border-0" id="Phone" name="Phone" value="@user?.PhoneNumber" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Email" class="form-label">Email address *</label>
+                        <input type="email" class="form-control bg-secondary text-white border-0" id="Email" name="Email" value="@user?.Email" readonly>
+                    </div>
+
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-success btn-lg w-100">Place Order</button>
+                    </div>
+                </form>
             </div>
-        </form>
-        <a asp-action="Index" asp-controller="Cart" class="btn btn-secondary btn-block">Back to Cart</a>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div class="col-lg-6">
+            <div class="card bg-dark text-white p-4">
+                <h2 class="mb-4">Your order</h2>
+
+                <table class="table table-dark table-borderless">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th class="text-end">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <td>@item.Title x @item.Quantity</td>
+                                <td class="text-end">@((item.Price * item.Quantity).ToString("C"))</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td><strong>Subtotal</strong></td>
+                            <td class="text-end"><strong>@Model.TotalAmount.ToString("C")</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total</strong></td>
+                            <td class="text-end"><strong>@Model.TotalAmount.ToString("C")</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="mt-4">
+                    <form asp-action="ProcessOrder" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-success btn-lg w-100">Place order</button>
+                    </form>
+                </div>
+
+                <p class="text-muted small mt-3">
+                    Your personal data will be used to process your order and support your experience on this site.
+                    See our <a href="#" class="text-decoration-underline text-light">privacy policy</a>.
+                </p>
+            </div>
+        </div>
     </div>
 </div>

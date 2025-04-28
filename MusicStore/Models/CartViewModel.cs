@@ -45,6 +45,10 @@ namespace MusicStore.Models
         /// </summary>
         public bool IsEmpty => ItemCount == 0;
 
+        public string CouponCode { get; set; }
+        public decimal DiscountAmount { get; set; }
+        public decimal GrandTotal => TotalAmount - DiscountAmount;
+
         /// <summary>
         /// Default constructor initializes the CartItems list
         /// </summary>

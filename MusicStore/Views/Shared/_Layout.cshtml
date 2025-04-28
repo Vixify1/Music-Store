@@ -235,70 +235,44 @@
     }
     else
     {
-        <!-- Top Navbar -->
-        <header class="bg-custom text-white p-3">
-            <div class="container-fluid">
-                <h1 class="h4 m-0">MusicStore</h1>
-            </div>
-        </header>
+        <div class="hero">
+            
+                <header class="header">
+                    <div class="logo">MusicStore</div>
+                    <div class="header-right">
+                        <div class="auth-buttons">
+                            <a asp-controller="Authentication" asp-action="Login" class="auth-button">Login</a>
+                            <a asp-controller="Authentication" asp-action="Register" class="auth-button">Register</a>
+                        </div>
+                        <div class="menu-icons">
+                            <div class="icon">|||</div>
+                            <div class="icon">
+                                <span class="cart">🛒<span class="badge">0</span></span>
+                            </div>
+                            <div class="menu-button">Menu</div>
+                        </div>
+                    </div>
+                </header>
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <ul class="nav flex-column">
-                @if (User.IsInRole("Admin"))
-                {
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-area="Admin"> Admin Home </a>
-                    </li>
-
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-dark" asp-controller="Customer" asp-action="Index"> Customers </a>
-                    </li>
-
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-dark" asp-controller="Artist" asp-action="Index"> Artists </a>
-                    </li>
-
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-dark" asp-controller="Genre" asp-action="Index"> Genres </a>
-                    </li>
-
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-dark" asp-controller="Album" asp-action="Index"> Albums </a>
-                    </li>
-                    <li class="nav-item mb-2">
-                        <a class="nav-link text-dark" asp-controller="Order" asp-action="OrderManagement"> Order Management </a>
-                    </li>
-                }
-
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-dark" asp-controller="UserProfile" asp-action="Index"> Profile </a>
-                </li>
-
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-dark" asp-controller="Order" asp-action="Index"> My Orders </a>
-                </li>
-
-                <li class="nav-item mt-3">
-                    <form method="post" asp-controller="Authentication" asp-action="Logout">
-                        @Html.AntiForgeryToken()
-                        <button class="btn btn-sm btn-danger w-100">🚪 Logout</button>
-                    </form>
-                </li>
-            </ul>
+                <main class="main-content">
+                    <nav class="nav-links">
+                        <a href="#">Beats</a>
+                        <a href="#">Dates</a>
+                        <a href="#">Photos</a>
+                        <a href="#">Shop</a>
+                    </nav>
+                    @RenderBody()
+                </main>
+            
+            <footer class="footer">
+                <div class="follow">
+                    <span>🔗</span> Follow
+                </div>
+                <div class="copyright">
+                    © Copyright @DateTime.Now.Year MusicStore.
+                </div>
+            </footer>
         </div>
-
-        <!-- Main Content -->
-        <div class="content-area">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
-
-        <!-- Footer -->
-        <footer class="border-top footer text-muted mt-auto text-center p-3">
-            &copy; @DateTime.Now.Year - MusicStore - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </footer>
     }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
