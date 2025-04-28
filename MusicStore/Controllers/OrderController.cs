@@ -31,7 +31,7 @@ namespace MusicStore.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
@@ -132,8 +132,13 @@ namespace MusicStore.Controllers
         {
             if (id != order.OrderId) return NotFound();
 
+            ModelState.Remove("Customer");
+            ModelState.Remove("OrderItems");
+
             if (ModelState.IsValid)
             {
+
+                
                 try
                 {
                     order.UpdatedAt = DateTime.UtcNow;
@@ -146,7 +151,7 @@ namespace MusicStore.Controllers
                     throw;
                 }
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("OrderManagement", "Order");
             }
 
             return View(order);
@@ -182,7 +187,7 @@ namespace MusicStore.Controllers
                 _orderRepository.Remove(order);
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("OrderManagement", "Order");
         }
 
 

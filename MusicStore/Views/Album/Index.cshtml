@@ -48,6 +48,15 @@
                             </button>
                         </div>
                     </form>
+
+                    <!-- Wishlist Form -->
+                    <form asp-controller="Wishlist" asp-action="AddToWishlist" method="post" class="wishlist-form">
+                        <input type="hidden" name="Id" value="@item.Id" />   <!--Here was a problem need to be careful should be name=id(Album) but was wishlist making the adding of a album with id 0 which doesn't exist-->
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-heart"></i> Add to Wishlist
+                        </button>
+                    </form>
+                    
                 </td>
             </tr>
         }
