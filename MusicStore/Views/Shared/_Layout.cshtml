@@ -7,8 +7,10 @@
     <title>@ViewData["Title"] - MusicStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MusicStore.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CodersSportStore.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-DlBKuD6ZaRRTe9G8nDg0c/bh7l8u/4OdL8BMEqmgHITv7clfr9pZTj9xP9WzS0GyT9l1/lDGi0U27Qqtz+XYQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         * {
             margin: 0;
@@ -20,7 +22,7 @@
         html {
             height: 100%;
             font-family: 'Poppins', sans-serif;
-        }
+        } 
 
         .bg-custom {
             background-color: #9bbe2c !important;
@@ -36,9 +38,9 @@
             border: none;
         }
 
-            .btn-custom:hover {
-                background-color: #88a824;
-            }
+        .btn-custom:hover {
+            background-color: #88a824;
+        }
 
         .nav-link.active,
         .nav-link:hover {
@@ -53,15 +55,11 @@
             border-right: 1px solid #ddd;
             height: 100vh;
             position: fixed;
-            z-index: 100;
         }
 
         .content-area {
             margin-left: 240px;
             padding: 20px;
-            position: relative;
-            z-index: 10;
-            background-color: white;
         }
 
         #bg-video {
@@ -74,16 +72,10 @@
             height: auto;
             z-index: -1;
             object-fit: cover;
-            display: none; /* Hide by default, show only when needed */
-        }
-
-        /* Show video only when not authenticated or for regular users */
-        body.not-authenticated #bg-video,
-        body.regular-user #bg-video {
-            display: block;
         }
 
         .hero {
+            
             background-color: transparent;
             color: white;
             position: relative;
@@ -144,17 +136,17 @@
             margin-top: 3rem;
         }
 
-            .nav-links a {
-                text-decoration: none;
-                color: white;
-                font-size: 2rem;
-                font-weight: bold;
-                transition: color 0.3s;
-            }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
 
-                .nav-links a:hover {
-                    color: #00ff9f;
-                }
+        .nav-links a:hover {
+            color: #00ff9f;
+        }
 
         .footer {
             display: flex;
@@ -193,47 +185,21 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-            .auth-button:hover {
-                background: white;
-                color: black;
-                transform: translateY(-2px);
-            }
+        .auth-button:hover {
+            background: white;
+            color: black;
+            transform: translateY(-2px);
+        }
 
         .header-right {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
-
-        /* Admin specific styles - white background and higher z-index */
-        .admin-layout {
-            background-color: white;
-            position: relative;
-            z-index: 100;
-            min-height: 100vh;
-        }
-
-            /* Override default styles for the admin layout */
-            .admin-layout .sidebar {
-                background-color: #f8f9fa;
-            }
-
-            .admin-layout .content-area {
-                background-color: white;
-            }
-
-        /* Admin footer */
-        .admin-footer {
-            margin-left: 220px;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #ddd;
-            text-align: center;
-        }
     </style>
 </head>
 
-<body class="@(User.Identity.IsAuthenticated ? (User.IsInRole("Admin") ? "admin-user" : "regular-user") : "not-authenticated")">
+<body>
     <video autoplay muted loop id="bg-video">
         <source src="https://motionbgs.com/media/5582/flowing-dots.960x540.mp4" type="video/mp4">
         Your browser does not support the video tag.
@@ -265,10 +231,10 @@
 
                 <main class="main-content">
                     <nav class="nav-links">
-                        <a asp-controller="Album" asp-action="Browse">Album</a>
-                        <a asp-controller="Artist" asp-action="Browse">Artist</a>
-                        <a asp-controller="Genre" asp-action="Browse">Genre</a>
-                        <a asp-controller="Shop" asp-action="Index">Shop</a>
+                        <a href="#">Album</a>
+                        <a href="#">Artist</a>
+                        <a href="#">Genre</a>
+                        <a href="#">Shop</a>
                     </nav>
                     @RenderBody()
                 </main>
@@ -293,66 +259,64 @@
         @if (User.IsInRole("Admin"))
         {
             <!-- Logged in as Admin: show admin sidebar and layout -->
-            <div class="admin-layout">
-                <header class="bg-custom text-white p-3">
-                    <div class="container-fluid">
-                        <h1 class="h4 m-0">MusicStore Admin</h1>
-                    </div>
-                </header>
-
-                <div class="sidebar">
-                    <ul class="nav flex-column">
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-area="Admin"> Admin Home </a>
-                        </li>
-
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="Customer" asp-action="Index"> Customers </a>
-                        </li>
-
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="Artist" asp-action="Index"> Artists </a>
-                        </li>
-
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="Genre" asp-action="Index"> Genres </a>
-                        </li>
-
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="Album" asp-action="Index"> Albums </a>
-                        </li>
-
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="Order" asp-action="OrderManagement"> Order Management </a>
-                        </li>
-
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="UserProfile" asp-action="Index"> Profile </a>
-                        </li>
-
-                        <li class="nav-item mb-2">
-                            <a class="nav-link text-dark" asp-controller="Order" asp-action="Index"> My Orders </a>
-                        </li>
-
-                        <li class="nav-item mt-3">
-                            <form method="post" asp-controller="Authentication" asp-action="Logout">
-                                @Html.AntiForgeryToken()
-                                <button class="btn btn-sm btn-danger w-100">🚪 Logout</button>
-                            </form>
-                        </li>
-                    </ul>
+            <header class="bg-custom text-white p-3">
+                <div class="container-fluid">
+                    <h1 class="h4 m-0">MusicStore</h1>
                 </div>
+            </header>
 
-                <div class="content-area">
-                    <main role="main" class="pb-3">
-                        @RenderBody()
-                    </main>
-                </div>
+            <div class="sidebar">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-area="Admin"> Admin Home </a>
+                    </li>
 
-                <footer class="admin-footer">
-                    &copy; @DateTime.Now.Year - MusicStore - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </footer>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Customer" asp-action="Index"> Customers </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Artist" asp-action="Index"> Artists </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Genre" asp-action="Index"> Genres </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Album" asp-action="Index"> Albums </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Order" asp-action="OrderManagement"> Order Management </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="UserProfile" asp-action="Index"> Profile </a>
+                    </li>
+
+                    <li class="nav-item mb-2">
+                        <a class="nav-link text-dark" asp-controller="Order" asp-action="Index"> My Orders </a>
+                    </li>
+
+                    <li class="nav-item mt-3">
+                        <form method="post" asp-controller="Authentication" asp-action="Logout">
+                            @Html.AntiForgeryToken()
+                            <button class="btn btn-sm btn-danger w-100">🚪 Logout</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
+
+            <div class="content-area">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+
+            <footer class="border-top footer text-muted mt-auto text-center p-3">
+                &copy; @DateTime.Now.Year - MusicStore - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </footer>
         }
         else
         {
@@ -383,10 +347,10 @@
 
                 <main class="main-content">
                     <nav class="nav-links">
-                        <a asp-controller="Album" asp-action="Browse">Album</a>
-                        <a asp-controller="Artist" asp-action="Browse">Artist</a>
-                        <a asp-controller="Genre" asp-action="Browse">Genre</a>
-                        <a asp-controller="Shop" asp-action="Index">Shop</a>
+                        <a href="#">Album</a>
+                        <a href="#">Artist</a>
+                        <a href="#">Genre</a>
+                        <a href="#">Shop</a>
                     </nav>
                     @RenderBody()
                 </main>

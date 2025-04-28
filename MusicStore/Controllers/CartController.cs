@@ -417,6 +417,80 @@ namespace MusicStore.Controllers
 
             TempData["SuccessMessage"] = "Order placed successfully!";
             return RedirectToAction("Index", "Home");
+
         }
+        [HttpGet]
+        public IActionResult IncreaseQuantity(int id)
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+            var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
+
+            if (customer == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var cart = _cartRepository.GetAll()
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Album)
+                .FirstOrDefault(c => c.CustomerId == customer.Id);
+
+            if (cart == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var item = cart.CartItems.FirstOrDefault(i => i.CartItemId == id);
+            if (item != null)
+            {
+                item.Quantity += 1;
+                _cartRepository.Update(cart);
+                _cartRepository.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult DecreaseQuantity(int id)
+        {
+            var user = _userManager.GetUserAsync(User).Result;
+            var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
+
+            if (customer == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var cart = _cartRepository.GetAll()
+                .Include(c => c.CartItems)
+                .ThenInclude(ci => ci.Album)
+                .FirstOrDefault(c => c.CustomerId == customer.Id);
+
+            if (cart == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var item = cart.CartItems.FirstOrDefault(i => i.CartItemId == id);
+            if (item != null)
+            {
+                if (item.Quantity > 1)
+                {
+                    item.Quantity -= 1;
+                }
+                else
+                {
+                    // If quantity becomes 0, remove the item from cart
+                    cart.CartItems.Remove(item);
+                }
+
+                _cartRepository.Update(cart);
+                _cartRepository.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }
