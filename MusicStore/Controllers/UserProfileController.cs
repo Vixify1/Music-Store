@@ -31,6 +31,9 @@ namespace MusicStore.Controllers
                 return NotFound();
             }
 
+            // Check if user is admin
+            var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
+
             // Check if there's a customer profile
             var customer = _customerRepository.GetAll()
                 .FirstOrDefault(c => c.UserId == user.Id);
@@ -43,7 +46,8 @@ namespace MusicStore.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 PhoneNumber = user.PhoneNumber,
-                HasCustomerProfile = customer != null
+                HasCustomerProfile = customer != null,
+                IsAdmin = isAdmin
             };
 
             if (customer != null)

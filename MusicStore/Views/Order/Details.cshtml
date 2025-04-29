@@ -5,62 +5,232 @@
     ViewData["Title"] = "Order Details";
 }
 
-<h2>Order Details</h2>
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        color: white;
+        min-height: 100vh;
+        padding: 2rem;
+        font-family: 'Poppins', sans-serif;
+    }
 
-<div class="row">
-    <div class="col-md-6">
-        <dl class="row">
-            <dt class="col-sm-4">Order ID</dt>
-            <dd class="col-sm-8">@Model.OrderId</dd>
+    .order-details-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
 
-            <dt class="col-sm-4">Order Date</dt>
-            <dd class="col-sm-8">@Model.OrderDate.ToString("yyyy-MM-dd")</dd>
+    .card {
+        border: none;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    }
 
-            <dt class="col-sm-4">Status</dt>
-            <dd class="col-sm-8">
-                <span
-                    class="badge @(Model.Status == MusicStore.Model.Entities.OrderStatus.Completed ? "bg-success" : 
-                                  Model.Status == MusicStore.Model.Entities.OrderStatus.Pending ? "bg-warning" :
-                                  Model.Status == MusicStore.Model.Entities.OrderStatus.Cancelled ? "bg-danger" : "bg-secondary")">
-                    @Model.Status
-                </span>
-            </dd>
+    .card-header {
+        background: rgba(0, 255, 159, 0.2);
+        color: white;
+        font-weight: bold;
+        border-top-left-radius: 15px !important;
+        border-top-right-radius: 15px !important;
+        border-bottom: 1px solid rgba(0, 255, 159, 0.3);
+        padding: 1.5rem;
+    }
 
-            <dt class="col-sm-4">Total Amount</dt>
-            <dd class="col-sm-8">@Model.TotalAmount.ToString("C")</dd>
-        </dl>
+    .card-body {
+        padding: 2rem;
+    }
+
+    .order-info {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .info-row {
+        display: flex;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .info-label {
+        color: #00ff9f;
+        font-weight: 600;
+        width: 200px;
+    }
+
+    .info-value {
+        color: white;
+        font-weight: 500;
+    }
+
+    .table {
+        color: white;
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        border-bottom: 2px solid rgba(0, 255, 159, 0.3);
+        color: #00ff9f;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(0, 255, 159, 0.1);
+    }
+
+    .table tbody td {
+        padding: 1.2rem 1rem;
+        vertical-align: middle;
+    }
+
+    .table tfoot td {
+        padding: 1.2rem 1rem;
+        font-weight: 600;
+        color: #00ff9f;
+    }
+
+    .status-badge {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        display: inline-block;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    .status-completed {
+        background: rgba(40, 167, 69, 0.2);
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        color: #28a745;
+    }
+
+    .status-pending {
+        background: rgba(255, 193, 7, 0.2);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        color: #ffc107;
+    }
+
+    .status-cancelled {
+        background: rgba(220, 53, 69, 0.2);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        color: #dc3545;
+    }
+
+    .status-other {
+        background: rgba(108, 117, 125, 0.2);
+        border: 1px solid rgba(108, 117, 125, 0.3);
+        color: #6c757d;
+    }
+
+    .btn-secondary {
+        background: rgba(108, 117, 125, 0.2);
+        border: 1px solid rgba(108, 117, 125, 0.3);
+        color: white;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(108, 117, 125, 0.3);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="hero">
+    <div class="order-details-container">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Order Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="order-info">
+                    <div class="info-row">
+                        <div class="info-label">Order ID</div>
+                        <div class="info-value">@Model.OrderId</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Order Date</div>
+                        <div class="info-value">@Model.OrderDate.ToString("MMM dd, yyyy")</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Status</div>
+                        <div class="info-value">
+                            <span
+                                class="status-badge @(Model.Status == OrderStatus.Completed ? "status-completed" : 
+                                                      Model.Status == OrderStatus.Pending ? "status-pending" :
+                                                      Model.Status == OrderStatus.Cancelled ? "status-cancelled" : "status-other")">
+                                @Model.Status
+                            </span>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Total Amount</div>
+                        <div class="info-value" style="color: #00ff9f; font-weight: 600;">
+                            @Model.TotalAmount.ToString("C")</div>
+                    </div>
+                </div>
+
+                <h5 class="mb-3" style="color: #00ff9f;">Order Items</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Album</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItems)
+                            {
+                                <tr>
+                                    <td>@item.AlbumTitle</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitPrice.ToString("C")</td>
+                                    <td>@item.Subtotal.ToString("C")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end">Total:</td>
+                                <td style="color: #00ff9f; font-weight: 600;">@Model.TotalAmount.ToString("C")</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="mt-4">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Orders
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<h3>Order Items</h3>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Album</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderItems)
-        {
-            <tr>
-                <td>@item.AlbumTitle</td>
-                <td>@item.Quantity</td>
-                <td>@item.UnitPrice.ToString("C")</td>
-                <td>@item.Subtotal.ToString("C")</td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="3" class="text-right"><strong>Total:</strong></td>
-            <td><strong>@Model.TotalAmount.ToString("C")</strong></td>
-        </tr>
-    </tfoot>
-</table>
-
-<div>
-    <a asp-action="OrderManagement" asp class="btn btn-secondary">Back to Orders </a>
 </div>
