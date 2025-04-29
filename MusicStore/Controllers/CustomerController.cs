@@ -25,7 +25,7 @@ namespace MusicStore.Controllers
             _userManager = userManager;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index(string FirstNameFilter, string LastNameFilter)
         {
             // First get the base query from the repository
@@ -86,9 +86,7 @@ namespace MusicStore.Controllers
         }
 
 
-        [Authorize]
-
-
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult> Create()
         {
@@ -108,6 +106,7 @@ namespace MusicStore.Controllers
             return View(new CustomerViewModel());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(CustomerViewModel model)
@@ -160,7 +159,7 @@ namespace MusicStore.Controllers
             _customerRepository.Add(customer);
             return RedirectToAction("Index");
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
@@ -194,6 +193,7 @@ namespace MusicStore.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(CustomerViewModel model)
@@ -252,7 +252,9 @@ namespace MusicStore.Controllers
 
             return RedirectToAction("Index");
         }
-        [Authorize]
+       
+        
+        [Authorize(Roles = "Admin")]
 
         [HttpGet]
         public async Task<ActionResult> Details(int id)
@@ -293,7 +295,7 @@ namespace MusicStore.Controllers
 
             return View(model);
         }
-        [Authorize]
+        [Authorize(Roles = "Admin")]
 
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
@@ -331,6 +333,8 @@ namespace MusicStore.Controllers
 
             return View(model);
         }
+
+        [Authorize(Roles = "Admin")]
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

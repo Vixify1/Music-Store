@@ -196,7 +196,7 @@ namespace MusicStore.Controllers
         // Management Orders method  for admin purpose
         public async Task<IActionResult> OrderManagement(string searchString, string status = "", int page = 1, string sortOrder = "date_desc")
         {
-            var pageSize = 10;
+            var pageSize = 8; //10
             var query = _orderRepository.GetAll()
                 .Include(o => o.Customer)
                     .ThenInclude(c => c.User)
@@ -264,6 +264,7 @@ namespace MusicStore.Controllers
                 CreatedAt = o.CreatedAt,
                 UpdatedAt = o.UpdatedAt,
                 UserId = o.Customer?.User?.Id.ToString(),
+                CustomerName = o.Customer?.User?.UserName ?? "Guest",
                 OrderItems = o.OrderItems.Select(oi => new OrderItemViewModel
                 {
                     AlbumTitle = oi.Album?.Title ?? "Unknown",

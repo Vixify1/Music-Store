@@ -1,0 +1,136 @@
+﻿@model IEnumerable<MusicStore.Models.AlbumListViewModel>
+
+@{
+    ViewData["Title"] = "Album Management";
+}
+
+<div class="admin-dashboard">
+    <h1 class="dashboard-title">Album Management</h1>
+    <p class="dashboard-subtitle">Manage your album collection and view order statistics</p>
+
+    <div class="dashboard-card">
+        <div class="card-header">
+            <h3>Album List</h3>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Total Ordered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var album in Model)
+                    {
+                        <tr>
+                            <td>@album.Title</td>
+                            <td>@album.Artist</td>
+                            <td>@album.TotalOrderedQuantity</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .admin-dashboard {
+        padding: 20px 0;
+    }
+
+    .dashboard-title {
+        color: #9bbe2c;
+        margin-bottom: 5px;
+    }
+
+    .dashboard-subtitle {
+        color: #aaa;
+        margin-bottom: 25px;
+    }
+
+    .stat-card {
+        background-color: #1E1E1E;
+        border-radius: 8px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        border-left: 4px solid #9bbe2c;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-icon {
+        font-size: 2.5rem;
+        margin-right: 15px;
+        color: #9bbe2c;
+    }
+
+    .stat-content {
+        flex-grow: 1;
+    }
+
+    .stat-title {
+        font-size: 1rem;
+        margin-bottom: 5px;
+        color: #E0E0E0;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: 0;
+        color: #E0E0E0;
+    }
+
+    .dashboard-card {
+        background-color: #1E1E1E;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .dashboard-card .card-header {
+            background-color: #282828;
+            padding: 15px 20px;
+            border-bottom: 1px solid #333;
+        }
+
+            .dashboard-card .card-header h3 {
+                margin: 0;
+                color: #9bbe2c;
+                font-size: 1.25rem;
+            }
+
+        .dashboard-card .card-body {
+            padding: 20px;
+        }
+
+        .dashboard-card .table {
+            margin-bottom: 0;
+        }
+
+            .dashboard-card .table th {
+                border-top: none;
+                color: #E0E0E0 !important;
+            }
+
+            .dashboard-card .table td {
+                color: #E0E0E0 !important;
+            }
+
+    .badge {
+        padding: 0.4rem 0.6rem;
+    }
+
+    .bg-success {
+        background-color: #2e7d32 !important;
+    }
+
+    .bg-warning {
+        background-color: #f57c00 !important;
+    }
+</style>

@@ -55,5 +55,24 @@ namespace MusicStore.Model.Abstract
             Expression<Func<T, TSortField>> orderBy, bool ascending);
         Task GetByCondition(Func<object, bool> value);
         // TTarget Map<TSource, TTarget>(TSource source);
+
+
+        // Async CRUD Support
+        Task<T> GetAsync(int? id);
+        Task<T> GetAsync(long? id);
+        Task<T> GetAsync(string id);
+        Task<T> GetAsync(Expression<Func<T, bool>> predicate);
+        Task<List<T>> GetAllAsync();
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
+
+        Task AddAsync(T entity);
+        Task AddRangeAsync(IEnumerable<T> entities);
+
+        Task RemoveAsync(T entity);
+        Task RemoveRangeAsync(IEnumerable<T> entities);
+
+        Task<int> SaveChangesAsync();
+        Task<int> CountAsync();
+        Task<IEnumerable<T>> GetAllWithIncludesAsync(params Expression<Func<T, object>>[] includes);
     }
 }

@@ -1,0 +1,35 @@
+﻿@model List<MusicStore.Models.Admin.Artist.ArtistWithSalesViewModel>
+
+<h2>Artists</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success mb-3">+ Add New Artist</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Genre</th>
+            <th>Country</th>
+            <th>Albums Sold</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var artist in Model)
+        {
+            <tr>
+                <td>@artist.ArtistName</td>
+                <td>@artist.Genre</td>
+                <td>@artist.Country</td>
+                <td>@artist.AlbumsSold</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@artist.ArtistName" class="btn btn-sm btn-primary">Details</a>
+                    <a asp-action="Edit" asp-route-id="@artist.ArtistName" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@artist.ArtistName" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

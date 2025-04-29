@@ -167,5 +167,73 @@ namespace MusicStore.Model.Concrete
         {
             throw new NotImplementedException();
         }
+
+        //  Async Get methods
+        public async Task<T> GetAsync(int? id) => await _table.FindAsync(id);
+        public async Task<T> GetAsync(long? id) => await _table.FindAsync(id);
+        public async Task<T> GetAsync(string id) => await _table.FindAsync(id);
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate) => await _table.FirstOrDefaultAsync(predicate);
+        public async Task<List<T>> GetAllAsync() => await _table.ToListAsync();
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate) => await _table.Where(predicate).ToListAsync();
+
+       
+        public async Task AddAsync(T entity)
+        {
+            await _table.AddAsync(entity);
+            await SaveChangesAsync();
+        }
+
+        public async Task AddRangeAsync(IEnumerable<T> entities)
+        {
+            await _table.AddRangeAsync(entities);
+            await SaveChangesAsync();
+        }
+        public async Task RemoveAsync(T entity)
+        {
+            _table.Remove(entity);
+            await SaveChangesAsync();
+        }
+
+        public async Task RemoveRangeAsync(IEnumerable<T> entities)
+        {
+            _table.RemoveRange(entities);
+            await SaveChangesAsync();
+        }
+        public async Task<int> SaveChangesAsync()
+        {
+            var saved = false;
+            var attempt = 0;
+            int result = 0;
+            while (!saved && attempt <= 3)
+            {
+                try
+                {
+                    result = await _context.SaveChangesAsync();
+                    saved = true;
+                }
+                catch (Exception)
+                {
+                    attempt++;
+                    throw;
+                }
+            }
+            return result;
+        }
+        public async Task<int> CountAsync()
+        {
+            return await _table.CountAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllWithIncludesAsync(params Expression<Func<T, object>>[] includes)
+        {
+            IQueryable<T> query = _table;
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }

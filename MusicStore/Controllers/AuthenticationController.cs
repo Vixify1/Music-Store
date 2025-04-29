@@ -125,7 +125,7 @@ namespace MusicStore.Controllers
                     {
                         if (await _userManager.IsInRoleAsync(user, UserTypeOptions.Admin.ToString()))
                         {
-                            return RedirectToAction("Index", "Home", new { area = "Admin" }); //area is important , if not will go to the home/index of root
+                            return RedirectToAction("Index", "Dashboard", new { area = "Admin" }); //area is important , if not will go to the home/index of root
                         }
                     }
                     if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))

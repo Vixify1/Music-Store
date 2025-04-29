@@ -4,6 +4,7 @@ using MusicStore.Model.Entities;
 using MusicStore.Model.Abstract;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
+using MusicStore.Models.Admin.Genre;
 
 namespace MusicStore.Models
 {
@@ -218,5 +219,7 @@ namespace MusicStore.Models
         {
             return _albumRepository.Get(id) != null;
         }
+
+
+        }
     }
-}
