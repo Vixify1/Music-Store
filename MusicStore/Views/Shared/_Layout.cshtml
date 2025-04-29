@@ -7,9 +7,12 @@
     <title>@ViewData["Title"] - MusicStore</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/shared.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CodersSportStore.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-DlBKuD6ZaRRTe9G8nDg0c/bh7l8u/4OdL8BMEqmgHITv7clfr9pZTj9xP9WzS0GyT9l1/lDGi0U27Qqtz+XYQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+          integrity="sha512-DlBKuD6ZaRRTe9G8nDg0c/bh7l8u/4OdL8BMEqmgHITv7clfr9pZTj9xP9WzS0GyT9l1/lDGi0U27Qqtz+XYQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         * {
@@ -22,23 +25,18 @@
         html {
             height: 100%;
             font-family: 'Poppins', sans-serif;
-            background-color: #121212; /* Dark background for the whole page [1, 2] */
-            color: #E0E0E0; /* Off-white text for better readability [1, 2] */
         }
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            color: #E0E0E0 !important;
-        }
         .bg-custom {
-            background-color: #9bbe2c !important; /* Keep the custom green for potential highlights */
+            background-color: #9bbe2c !important;
         }
 
         .text-custom {
-            color: #9bbe2c !important; /* Keep the custom green for potential highlights */
+            color: #9bbe2c !important;
         }
 
         .btn-custom {
-            background-color: #9bbe2c; /* Keep the custom green button */
+            background-color: #9bbe2c;
             color: white;
             border: none;
         }
@@ -54,19 +52,17 @@
         }
 
         .sidebar {
-            width: 170px;
-            background-color: #1E1E1E; /* Dark grey sidebar background [3] */
+            width: 220px;
+            background-color: #f8f9fa;
             padding: 20px;
-            border-right: 1px solid #333; /* Subtle border for separation */
+            border-right: 1px solid #ddd;
             height: 100vh;
             position: fixed;
-            color: #E0E0E0; /* Light text in sidebar */
         }
 
         .content-area {
-            margin-left: 190px;
+            margin-left: 240px;
             padding: 20px;
-            background-color: #121212; /* Ensure main content area also has dark background */
         }
 
         #bg-video {
@@ -80,15 +76,6 @@
             z-index: -1;
             object-fit: cover;
         }
-
-        .bg-light {
-            background-color: #1E1E1E !important; /* Match sidebar dark gray */
-            color: #E0E0E0 !important; /* Ensure text remains visible */
-        }
-        .table-hover tbody tr:hover {
-  color: #ffffff !important; /* hover text color */
-  background-color: rgba(255, 255, 255, 0.1) !important; /* hover bg */
-}
 
         .hero {
             background-color: transparent;
@@ -168,7 +155,6 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.9rem;
-            color: #999; /* Slightly lighter text for footer */
         }
 
         .follow {
@@ -212,134 +198,18 @@
             align-items: center;
             gap: 1rem;
         }
-
-        /* Dark background for authenticated user sections */
-        .authenticated-background {
-            background-color: #121212; /* Consistent dark background */
-            min-height: 100vh;
-            color: #E0E0E0; /* Light text for authenticated areas */
-        }
-
-        /* Style for the admin header */
-        .admin-header {
-            background-color: #1E1E1E; /* Dark grey admin header [3] */
-            color: #E0E0E0;
-            padding: 1rem;
-            margin-bottom: 20px; /* Add some space below the header */
-        }
-
-            .admin-header h1 {
-                color: #9bbe2c; /* Use accent color for the title */
-                margin-bottom: 0;
-            }
-
-        /* ADMIN AREA SPECIFIC STYLES */
-        /* These styles specifically target the admin area to fix issues */
-
-        /* Style for admin sidebar links */
-        .sidebar .nav-link {
-            color: #E0E0E0 !important; /* Ensure text is visible on dark sidebar */
-        }
-
-
-            .sidebar .nav-link:hover,
-            .sidebar .nav-link.active {
-                color: #9bbe2c !important; /* Highlight color when active/hover */
-            }
-
-        /* Style for tables in admin area */
-        .table {
-            color: #E0E0E0; /* Light text for table content */
-        }
-
-            .table th,
-            .table td {
-                border-color: #333; /* Darker border for table cells */
-            }
-
-            .table thead th {
-                background-color: #333; /* Dark header background */
-                color: #E0E0E0; /* Light text for table headers */
-            }
-
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(255, 255, 255, 0.05); /* Subtle row striping */
-        }
-
-        /* Fix for active table row in Order Management */
-        .table .table-active {
-            background-color: #343a40 !important; /* Dark background to match the sidebar */
-            color: #ffffff !important; /* Ensure the text stays white */
-        }
-
-            /* Optionally, add a hover effect to improve UX */
-            .table .table-active:hover {
-                background-color: #555 !important; /* Slightly lighter shade for hover effect */
-                color: #ffffff !important; /* Keep text color white */
-            }
-
-        /* Form controls in admin area */
-        .form-control {
-            background-color: #333; /* Dark background for inputs */
-            border-color: #444; /* Darker border for inputs */
-            color: #E0E0E0; /* Light text for inputs */
-        }
-
-            .form-control:focus {
-                background-color: #444; /* Slightly lighter background when focused */
-                border-color: #9bbe2c; /* Accent color border when focused */
-                color: #E0E0E0; /* Maintain light text when focused */
-                box-shadow: 0 0 0 0.25rem rgba(155, 190, 44, 0.25); /* Subtle glow effect */
-            }
-
-        /* Select dropdowns in admin area */
-        select.form-select {
-            background-color: #333; /* Dark background for selects */
-            color: #E0E0E0; /* Light text for selects */
-            border-color: #444; /* Darker border for selects */
-        }
-
-        /* Admin action buttons */
-        .btn-primary {
-            background-color: #9bbe2c; /* Accent color for primary actions */
-            border-color: #9bbe2c;
-        }
-
-            .btn-primary:hover {
-                background-color: #88a824; /* Darker shade when hovered */
-                border-color: #88a824;
-            }
-
-        /* Cards in admin area */
-        .card {
-            background-color: #1E1E1E; /* Dark card background */
-            border-color: #333; /* Darker border for cards */
-        }
-
-        .card-header {
-            background-color: #333; /* Darker header for cards */
-            border-color: #444; /* Even darker border for card header */
-        }
-
-        /* Fix for links in admin area */
-        .content-area a:not(.btn):not(.nav-link) {
-            color: #9bbe2c; /* Accent color for links */
-        }
-
-            .content-area a:not(.btn):not(.nav-link):hover {
-                color: #88a824; /* Darker shade when hovered */
-            }
     </style>
 </head>
 
 <body>
+    <video autoplay muted loop id="bg-video">
+        <source src="https://motionbgs.com/media/5582/flowing-dots.960x540.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     @if (!User.Identity.IsAuthenticated)
     {
-        <video autoplay muted loop id="bg-video">
-            <source src="https://motionbgs.com/media/5582/flowing-dots.960x540.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-
+        <!-- Not logged in: show login/register header -->
         <div class="hero">
             @if (!Context.Request.Path.Value.Contains("Authentication"))
             {
@@ -355,7 +225,7 @@
                         <div class="menu-icons">
                             <div class="icon">|||</div>
                             <div class="icon">
-                                <span class="cart">🛒<span class="badge">0</span></span>
+                                @await Html.PartialAsync("_CartBadge")
                             </div>
                         </div>
                     </div>
@@ -390,43 +260,45 @@
     {
         @if (User.IsInRole("Admin"))
         {
-            <header class="admin-header">
+            <!-- Logged in as Admin: show admin sidebar and layout -->
+            <header class="bg-custom text-white p-3">
                 <div class="container-fluid">
-                    <h1 class="h4 m-0">MusicStore Admin Area</h1>
+                    <h1 class="h4 m-0">MusicStore</h1>
                 </div>
             </header>
 
             <div class="sidebar">
                 <ul class="nav flex-column">
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="Dashboard" asp-action="Index" area="Admin" > Admin Dashboard </a>
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" asp-area="Admin"> Admin Home </a>
                     </li>
 
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="Customer" asp-action="Index"> Customers Management </a>
+                        <a class="nav-link text-dark" asp-controller="Customer" asp-action="Index"> Customers </a>
                     </li>
 
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="Artist" asp-action="Index"> Artists </a>
+                        <a class="nav-link text-dark" asp-controller="Artist" asp-action="Index"> Artists </a>
                     </li>
 
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="Genre" asp-action="Index"> Genres </a>
+                        <a class="nav-link text-dark" asp-controller="Genre" asp-action="Index"> Genres </a>
                     </li>
 
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="Dashboard" asp-action="Albums"> Albums </a>
+                        <a class="nav-link text-dark" asp-controller="Album" asp-action="Index"> Albums </a>
                     </li>
 
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="Order" asp-action="OrderManagement"> Order Management </a>
+                        <a class="nav-link text-dark" asp-controller="Order" asp-action="OrderManagement"> Order Management </a>
                     </li>
 
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="UserProfile" asp-action="Index"> Profile </a>
+                        <a class="nav-link text-dark" asp-controller="UserProfile" asp-action="Index"> Profile </a>
                     </li>
+
                     <li class="nav-item mb-2">
-                        <a class="nav-link" asp-controller="Dashboard" asp-action="Artists"> Artistist & Albums </a>
+                        <a class="nav-link text-dark" asp-controller="Order" asp-action="Index"> My Orders </a>
                     </li>
 
                     <li class="nav-item mt-3">
@@ -443,53 +315,55 @@
                     @RenderBody()
                 </main>
             </div>
+
+            <footer class="border-top footer text-muted mt-auto text-center p-3">
+                &copy; @DateTime.Now.Year - MusicStore - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </footer>
         }
         else
         {
-            <div class="authenticated-background">
-                <div class="hero">
-                    <header class="header">
-                        <div class="logo">
-                            <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo" style="height: 50px;">
-                        </div>
-                        <div class="header-right">
-                            <div class="auth-buttons">
-                                <a asp-controller="UserProfile" asp-action="Index" class="auth-button">My Profile</a>
-                                <a asp-controller="Order" asp-action="Index" class="auth-button">My Orders</a>
+            <!-- Logged in as normal user: show minimal header (no sidebar) -->
+            <div class="hero">
+                <header class="header">
+                    <div class="logo">
+                        <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo" style="height: 50px;">
+                    </div>
+                    <div class="header-right">
+                        <div class="auth-buttons">
+                            <a asp-controller="UserProfile" asp-action="Index" class="auth-button">My Profile</a>
+                            <a asp-controller="Order" asp-action="Index" class="auth-button">My Orders</a>
 
-                                <form method="post" asp-controller="Authentication" asp-action="Logout" style="display: inline;">
-                                    @Html.AntiForgeryToken()
-                                    <button type="submit" class="auth-button" style="background: rgba(255, 0, 0, 0.7); border: 2px solid white;">Logout</button>
-                                </form>
+                            <form method="post" asp-controller="Authentication" asp-action="Logout" style="display: inline;">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="auth-button"
+                                        style="background: rgba(255, 0, 0, 0.7); border: 2px solid white;">
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                        <div class="menu-icons">
+                            <div class="icon">|||</div>
+                            <div class="icon">
+                                @await Html.PartialAsync("_CartBadge")
                             </div>
-                            <div class="menu-icons">
-                                <div class="icon">|||</div>
-                                <div class="icon">
-                                    <span class="cart">🛒<span class="badge">0</span></span>
-                                </div>
-                            </div>
                         </div>
-                    </header>
+                    </div>
+                </header>
 
-                    <main class="main-content">
-                        <nav class="nav-links">
-                            <a href="#">Album</a>
-                            <a href="#">Artist</a>
-                            <a href="#">Genre</a>
-                            <a href="#">Shop</a>
-                        </nav>
-                        @RenderBody()
-                    </main>
+                <main class="main-content">
 
-                    <footer class="footer">
-                        <div class="follow">
-                            <span>🔗</span> Follow
-                        </div>
-                        <div class="copyright">
-                            © Copyright @DateTime.Now.Year MusicStore.
-                        </div>
-                    </footer>
-                </div>
+
+                    @RenderBody()
+                </main>
+
+                <footer class="footer">
+                    <div class="follow">
+                        <span>🔗</span> Follow
+                    </div>
+                    <div class="copyright">
+                        © Copyright @DateTime.Now.Year MusicStore.
+                    </div>
+                </footer>
             </div>
         }
     }

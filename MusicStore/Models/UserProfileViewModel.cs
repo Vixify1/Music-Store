@@ -35,5 +35,7 @@ namespace MusicStore.Models.UserProfile
         public bool HasCustomerProfile { get; set; }
 
         public int? CustomerId { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }

@@ -74,7 +74,8 @@
             transform: translateY(-2px);
         }
 
-    .form-control, textarea.form-control {
+    .form-control,
+    textarea.form-control {
         border-radius: 5px;
         border: 1px solid rgba(255, 255, 255, 0.2);
         background: rgba(255, 255, 255, 0.1);
@@ -127,8 +128,8 @@
                         <h5 class="mb-0">Profile Summary</h5>
                     </div>
                     <div class="card-body text-center">
-                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                             class="rounded-circle img-fluid" style="width: 150px;">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp"
+                             alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
                         <h5 class="my-3">@Model.FullName</h5>
                         <p class="text-muted mb-1">@Model.Email</p>
                         <p class="text-muted mb-4">@Model.Address</p>
@@ -194,7 +195,7 @@
                     </div>
                 </div>
 
-                @if (Model.HasCustomerProfile)
+                @if (Model.HasCustomerProfile && Model.IsAdmin)
                 {
                     <div class="card mb-4">
                         <div class="card-header">
@@ -202,7 +203,8 @@
                         </div>
                         <div class="card-body">
                             <p>You have an active customer profile in our system.</p>
-                            <a asp-controller="Customer" asp-action="Details" asp-route-id="@Model.CustomerId" class="btn btn-info">
+                            <a asp-controller="Customer" asp-action="Details" asp-route-id="@Model.CustomerId"
+                               class="btn btn-info">
                                 <i class="fas fa-eye me-1"></i> View Customer Details
                             </a>
                         </div>

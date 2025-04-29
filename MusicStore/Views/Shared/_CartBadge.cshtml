@@ -1,0 +1,17 @@
+﻿@{
+    var count = ViewBag.CartCount ?? 0;
+}
+<a asp-controller="Cart" asp-action="Index" class="cart-link">
+    <span class="cart">🛒<span class="badge">@count</span></span>
+</a>
+
+<style>
+    .cart-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .cart-link:hover {
+        opacity: 0.8;
+    }
+</style>
