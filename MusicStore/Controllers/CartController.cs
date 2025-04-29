@@ -34,7 +34,7 @@ namespace MusicStore.Controllers
 
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             // Get cart with included items and albums
@@ -82,7 +82,7 @@ namespace MusicStore.Controllers
 
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             // Get cart with included items
@@ -204,7 +204,7 @@ namespace MusicStore.Controllers
             var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var cart = _cartRepository.GetAll()
@@ -230,7 +230,7 @@ namespace MusicStore.Controllers
 
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var cart = _cartRepository.GetAll().FirstOrDefault(c => c.CustomerId == customer.Id);
@@ -262,7 +262,7 @@ namespace MusicStore.Controllers
             var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var cart = _cartRepository.GetAll().FirstOrDefault(c => c.CustomerId == customer.Id);
@@ -288,7 +288,7 @@ namespace MusicStore.Controllers
 
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var cart = _cartRepository.GetAll()
@@ -326,7 +326,7 @@ namespace MusicStore.Controllers
 
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var cart = _cartRepository.GetAll()
@@ -353,7 +353,7 @@ namespace MusicStore.Controllers
 
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var cart = _cartRepository.GetAll()
@@ -396,7 +396,7 @@ namespace MusicStore.Controllers
 
             if (customer == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var cart = _cartRepository.GetAll()

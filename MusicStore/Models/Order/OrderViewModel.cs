@@ -10,6 +10,9 @@ namespace MusicStore.Models.Order
         public int OrderId { get; set; }
 
         public int CustomerId { get; set; }
+        public string UserId { get; set; }
+
+        public string CustomerName { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
         public OrderStatus Status { get; set; }
@@ -19,6 +22,5 @@ namespace MusicStore.Models.Order
 
         public List<OrderItemViewModel> OrderItems { get; set; }
 
-        public string UserId { get; set; }
     }
 }
