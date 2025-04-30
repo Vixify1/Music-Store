@@ -2,45 +2,171 @@
 @{
     ViewData["Title"] = "Edit Album";
 }
-<h2>Edit Album</h2>
-<form asp-action="Edit">
-    <input type="hidden" asp-for="Id" />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        color: white;
+        min-height: 100vh;
+        padding: 2rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .album-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        border-radius: 15px;
+        padding: 0.75rem 1rem;
+    }
+
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(0, 255, 159, 0.3);
+        color: white;
+        box-shadow: none;
+    }
+
+    .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    label {
+        color: white;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .btn {
+        border-radius: 15px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0.25rem;
+    }
+
+    .btn-success {
+        background: rgba(40, 167, 69, 0.8);
+        border: none;
+    }
+
+    .btn-success:hover {
+        background: rgba(40, 167, 69, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background: rgba(108, 117, 125, 0.8);
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(108, 117, 125, 1);
+        transform: translateY(-2px);
+    }
+
+    .page-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        text-align: center;
+    }
+
+    .text-danger {
+        color: #ff6b6b !important;
+    }
+
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 12px;
+        padding-right: 2.5rem;
+        background-color: rgba(0, 0, 0, 0.3) !important;
+        color: white !important;
+    }
+
+    select.form-control option {
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 0.5rem;
+    }
+
+    select.form-control:focus {
+        background-color: rgba(0, 0, 0, 0.4) !important;
+    }
+</style>
+
+<div class="hero">
+    <div class="album-container">
+        <h2 class="page-title">Edit Album</h2>
+
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" placeholder="Enter album title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Artist">Artist</label>
+                <input asp-for="Artist" class="form-control" placeholder="Enter artist name" />
+                <span asp-validation-for="Artist" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ReleaseDate"></label>
+                <input asp-for="ReleaseDate" class="form-control" type="date" />
+                <span asp-validation-for="ReleaseDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="GenreId">Genre</label>
+                <select asp-for="GenreId" class="form-control" asp-items="ViewBag.Genres">
+                    <option value="">-- Select Genre --</option>
+                </select>
+                <span asp-validation-for="GenreId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Price"></label>
+                <input asp-for="Price" class="form-control" placeholder="Enter price" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="coverUrl">Cover URL</label>
+                <input asp-for="coverUrl" class="form-control" placeholder="Enter cover image URL" />
+                <span asp-validation-for="coverUrl" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success">Save</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
     </div>
-    <div class="form-group">
-        <label asp-for="Artist">Artist</label>
-        <input asp-for="Artist" class="form-control" />
-        <span asp-validation-for="Artist" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ReleaseDate"></label>
-        <input asp-for="ReleaseDate" class="form-control" type="date" />
-        <span asp-validation-for="ReleaseDate" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="GenreId">Genre</label>
-        <select asp-for="GenreId" class="form-control" asp-items="ViewBag.Genres">
-            <option value="">-- Select Genre --</option>
-        </select>
-        <span asp-validation-for="GenreId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="coverUrl">Cover URL</label>
-        <input asp-for="coverUrl" class="form-control" />
-        <span asp-validation-for="coverUrl" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-success mt-2">Save</button>
-    <a asp-action="Index" class="btn btn-secondary mt-2">Cancel</a>
-</form>
+</div>
 
 @section Scripts {
     @{

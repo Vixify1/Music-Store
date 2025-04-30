@@ -1,37 +1,150 @@
-﻿@model List<MusicStore.Model.Entities.ArtistEntities>
+﻿@model IEnumerable<MusicStore.Model.Entities.ArtistEntities>
 
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        color: white;
+        min-height: 100vh;
+        padding: 2rem;
+        font-family: 'Poppins', sans-serif;
+    }
 
+    .artist-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
 
-<h2>Artists</h2>
+    .table {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+        margin-bottom: 0;
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-success mb-3">+ Add New Artist</a>
-</p>
+    .table th, .table td {
+        color: white;
+        border-color: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Genre</th>
-            <th>Country</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var artist in Model)
+    .table thead th {
+        background: rgba(0, 255, 159, 0.2);
+        border-bottom: 1px solid rgba(0, 255, 159, 0.3);
+        font-weight: 600;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn {
+        border-radius: 15px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0.25rem;
+    }
+
+    .btn-primary {
+        background: rgba(0, 123, 255, 0.8);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: rgba(0, 123, 255, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background: rgba(220, 53, 69, 0.8);
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background: rgba(220, 53, 69, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-success {
+        background: rgba(40, 167, 69, 0.8);
+        border: none;
+    }
+
+    .btn-success:hover {
+        background: rgba(40, 167, 69, 1);
+        transform: translateY(-2px);
+    }
+
+    .page-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<div class="hero">
+    <div class="container-glass">
+        <h2 class="page-title">Artists</h2>
+
+        @if (User.IsInRole("Admin"))
         {
-            <tr>
-                <td>@artist.Name</td>
-                <td>@artist.Genre</td>
-                <td>@artist.Country</td>
-                <td>
-
-                    <a asp-action="Details" asp-route-id="@artist.Id" class="btn btn-sm btn-primary">Details</a>
-                    <a asp-action="Edit" asp-route-id="@artist.Id" class="btn btn-sm btn-primary">Edit</a> 
-                  
-                    <a asp-action="Delete" asp-route-id="@artist.Id" class="btn btn-sm btn-danger"> Delete </a>
-                </td>
-            </tr>
+            <p>
+                <a asp-action="Create" class="btn btn-success mb-3">
+                    <i class="bi bi-plus-circle"></i> Add New Artist
+                </a>
+            </p>
         }
-    </tbody>
-</table>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Genre</th>
+                    <th>Country</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var artist in Model)
+                {
+                    <tr>
+                        <td>@artist.Name</td>
+                        <td>@artist.Genre</td>
+                        <td>@artist.Country</td>
+                        <td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Details" asp-route-id="@artist.Id" class="btn btn-admin details">
+                                        <i class="bi bi-eye"></i> Details
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@artist.Id" class="btn btn-admin edit">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@artist.Id" class="btn btn-admin delete">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <a asp-action="Details" asp-route-id="@artist.Id" class="btn btn-admin details">
+                                    <i class="bi bi-eye"></i> Details
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

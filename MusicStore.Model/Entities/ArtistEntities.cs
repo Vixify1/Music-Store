@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace MusicStore.Model.Entities
         [Required]
         [MaxLength(50)]
         public string Genre { get; set; }
+        public List<SelectListItem>? Generes; 
         [MaxLength(50)]
         public string Country { get; set; }
     }

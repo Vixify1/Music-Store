@@ -4,23 +4,33 @@
     ViewData["Title"] = "Create Genre";
 }
 
-<h2>Create Genre</h2>
+<div class="hero">
+    <div class="container-glass">
+        <h2 class="page-title">Create Genre</h2>
 
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description"></label>
-        <input asp-for="Description" class="form-control" />
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+        <form asp-action="Create" method="post" class="form-container">
+            <div class="form-group">
+                <label asp-for="Name" class="form-label">Genre Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Enter genre name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="form-label">Description</label>
+                <textarea asp-for="Description" class="form-control" placeholder="Enter genre description" rows="3"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
 
-    <button type="submit" class="btn btn-success">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
-</form>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-plus-circle"></i> Create Genre
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

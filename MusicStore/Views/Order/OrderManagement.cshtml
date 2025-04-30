@@ -2,70 +2,74 @@
 
 @{
     ViewData["Title"] = "Order Management";
-   
 }
 
-<div class="container-fluid pt-4 px-4">
-    <div class="bg-light rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h5 class="mb-0">Order Management</h5>
-        </div>
+<div class="hero">
+    <div class="container-glass">
+        <h4 class="page-title">Order Management</h4>
 
         <!-- Filter and Search Section -->
-        <form asp-action="OrderManagement" method="get" class="row mb-4">
-            <div class="col-md-4">
-                <div class="input-group">
-                    <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search by order ID or customer...">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fa fa-search">Search</i>
-                    </button>
+        <form asp-action="OrderManagement" method="get" class="filter-section mb-4">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search by order ID or customer...">
+                        <button type="submit" class="btn btn-admin">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select name="status" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Statuses</option>
+                        @foreach (var status in Model.StatusOptions)
+                        {
+                            <option value="@status" selected="@(status == Model.Status)">
+                                @status
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="sortOrder" class="form-select" onchange="this.form.submit()">
+                        <option value="date_desc" selected="@(Model.SortOrder == "date_desc")">Newest First</option>
+                        <option value="date_asc" selected="@(Model.SortOrder == "date_asc")">Oldest First</option>
+                        <option value="total_desc" selected="@(Model.SortOrder == "total_desc")">Highest Total</option>
+                        <option value="total_asc" selected="@(Model.SortOrder == "total_asc")">Lowest Total</option>
+                        <option value="customer" selected="@(Model.SortOrder == "customer")">Customer Name</option>
+                        <option value="status" selected="@(Model.SortOrder == "status")">Status</option>
+                    </select>
                 </div>
             </div>
-            <div class="col-md-3">
-                <select name="status" class="form-select" onchange="this.form.submit()">
-                    <option value="">All Statuses</option>
-                    @foreach (var status in Model.StatusOptions)
-                    {
-                        <option value="@status" selected="@(status == Model.Status)">
-                            @status
-                        </option>
-                    }
-                </select>
-            </div>
-            <div class="col-md-2">
-                <select name="sortOrder" class="form-select" onchange="this.form.submit()">
-                    <option value="date_desc" selected="@(Model.SortOrder == "date_desc")">Newest First</option>
-                    <option value="date_asc" selected="@(Model.SortOrder == "date_asc")">Oldest First</option>
-                    <option value="total_desc" selected="@(Model.SortOrder == "total_desc")">Highest Total</option>
-                    <option value="total_asc" selected="@(Model.SortOrder == "total_asc")">Lowest Total</option>
-                    <option value="customer" selected="@(Model.SortOrder == "customer")">Customer Name</option>
-                    <option value="status" selected="@(Model.SortOrder == "status")">Status</option>
-                </select>
-            </div>
-
-            
-
         </form>
 
-        <!--Total Sales and Total Order in the vertical nav-->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <span class="badge bg-info fs-6 p-2">
-                    <strong>Total Orders:</strong> @Model.TotalOrders
-                </span>
-            </div>
-            <div class="col-md-6 text-md-end">
-                <span class="badge bg-success fs-6 p-2">
-                    <strong>Total Sales:</strong> @Model.TotalSales.ToString("C")
-                </span>
+        <!-- Stats Section -->
+        <div class="stats-section mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <i class="bi bi-cart-check"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Orders</span>
+                            <span class="stat-value">@Model.TotalOrders</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stat-card">
+                        <i class="bi bi-currency-dollar"></i>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Sales</span>
+                            <span class="stat-value">@Model.TotalSales.ToString("C")</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-
 
         <!-- Orders Table -->
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>
@@ -100,21 +104,24 @@
                             <td>#@order.OrderId</td>
                             <td>@order.CustomerName</td>
                             <td>
+                                <span class="status-badge @(order.Status == MusicStore.Model.Entities.OrderStatus.Completed ? "status-completed" : 
+                                                          order.Status == MusicStore.Model.Entities.OrderStatus.Pending ? "status-pending" :
+                                                          order.Status == MusicStore.Model.Entities.OrderStatus.Cancelled ? "status-cancelled" : "status-other")">
                                     @order.Status
-                                
+                                </span>
                             </td>
                             <td>@order.OrderItems.Count</td>
-                            <td>@order.TotalAmount.ToString("C")</td>
+                            <td class="order-amount">@order.TotalAmount.ToString("C")</td>
                             <td>
-                                <div class="btn-group">
-                                    <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-sm btn-info">
-                                        <i class="fa fa-eye"></i>
+                                <div class="action-buttons">
+                                    <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-admin">
+                                        <i class="bi bi-eye"></i>
                                     </a>
-                                    <a asp-action="Edit" asp-controller="Order" asp-route-id="@order.OrderId" class="btn btn-sm btn-warning">
-                                        <i class="fa fa-edit"></i>
+                                    <a asp-action="Edit" asp-controller="Order" asp-route-id="@order.OrderId" class="btn btn-admin">
+                                        <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@order.OrderId" class="btn btn-sm btn-danger">
-                                        <i class="fa fa-trash"></i>
+                                    <a asp-action="Delete" asp-route-id="@order.OrderId" class="btn btn-admin delete">
+                                        <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </td>
@@ -133,12 +140,12 @@
         <!-- Pagination -->
         @if (Model.TotalPages > 1)
         {
-            <div class="d-flex justify-content-center mt-4">
+            <div class="pagination-section">
                 <nav>
                     <ul class="pagination">
                         <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
                             <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage - 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
-                                Previous
+                                <i class="bi bi-chevron-left"></i>
                             </a>
                         </li>
 
@@ -153,7 +160,7 @@
 
                         <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
                             <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage + 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
-                                Next
+                                <i class="bi bi-chevron-right"></i>
                             </a>
                         </li>
                     </ul>
@@ -162,4 +169,176 @@
         }
     </div>
 </div>
+
+<style>
+    .page-title {
+        color: white;
+        margin-bottom: 2rem;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .stats-section {
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .stat-card i {
+        font-size: 2rem;
+        color: #00ff9f;
+    }
+
+    .stat-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-label {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+
+    .stat-value {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .table {
+        color: white;
+        margin-bottom: 0;
+    }
+
+    .table thead th {
+        border-bottom: 2px solid rgba(0, 255, 159, 0.3);
+        color: #00ff9f;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        padding: 1rem;
+    }
+
+    .table tbody tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(0, 255, 159, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .table tbody td {
+        padding: 1.2rem 1rem;
+        vertical-align: middle;
+    }
+
+    .status-badge {
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        display: inline-block;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    .status-completed {
+        background: rgba(40, 167, 69, 0.2);
+        border: 1px solid rgba(40, 167, 69, 0.3);
+        color: #28a745;
+    }
+
+    .status-pending {
+        background: rgba(255, 193, 7, 0.2);
+        border: 1px solid rgba(255, 193, 7, 0.3);
+        color: #ffc107;
+    }
+
+    .status-cancelled {
+        background: rgba(220, 53, 69, 0.2);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        color: #dc3545;
+    }
+
+    .status-other {
+        background: rgba(108, 117, 125, 0.2);
+        border: 1px solid rgba(108, 117, 125, 0.3);
+        color: #6c757d;
+    }
+
+    .order-amount {
+        font-weight: 600;
+        color: #00ff9f;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-admin {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-admin:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .btn-admin.delete:hover {
+        background: rgba(220, 53, 69, 0.2);
+        border-color: rgba(220, 53, 69, 0.3);
+    }
+
+    .pagination-section {
+        margin-top: 2rem;
+    }
+
+    .pagination {
+        justify-content: center;
+    }
+
+    .page-link {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        margin: 0 0.25rem;
+        border-radius: 8px;
+    }
+
+    .page-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(0, 255, 159, 0.3);
+        color: white;
+    }
+
+    .page-item.active .page-link {
+        background: rgba(0, 255, 159, 0.2);
+        border-color: rgba(0, 255, 159, 0.3);
+        color: #00ff9f;
+    }
+
+    .page-item.disabled .page-link {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.3);
+    }
+</style>
 

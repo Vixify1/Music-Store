@@ -1,19 +1,114 @@
 ﻿@model MusicStore.Model.Entities.ArtistEntities
 
-<h2>Artist Details</h2>
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        color: white;
+        min-height: 100vh;
+        padding: 2rem;
+        font-family: 'Poppins', sans-serif;
+    }
 
-<dl class="row">
-    <dt class="col-sm-2">Name</dt>
-    <dd class="col-sm-10">@Model.Name</dd>
+    .artist-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
 
-    <dt class="col-sm-2">Genre</dt>
-    <dd class="col-sm-10">@Model.Genre</dd>
+    .artist-details {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
 
-    <dt class="col-sm-2">Country</dt>
-    <dd class="col-sm-10">@Model.Country</dd>
-</dl>
+    .artist-info {
+        flex: 1;
+    }
 
-<p>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-primary">Edit</a>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
-</p>
+    .artist-title {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: white;
+        font-weight: 600;
+    }
+
+    .artist-meta {
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 2rem;
+        font-size: 1.1rem;
+    }
+
+    .btn {
+        border-radius: 15px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin-right: 0.5rem;
+    }
+
+    .btn-primary {
+        background: rgba(0, 123, 255, 0.8);
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background: rgba(0, 123, 255, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background: rgba(108, 117, 125, 0.8);
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(108, 117, 125, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background: rgba(220, 53, 69, 0.8);
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background: rgba(220, 53, 69, 1);
+        transform: translateY(-2px);
+    }
+
+    .action-buttons {
+        margin-top: 2rem;
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+</style>
+
+<div class="hero">
+    <div class="artist-container">
+        <div class="artist-details">
+            <div class="artist-info">
+                <h1 class="artist-title">@Model.Name</h1>
+                <div class="artist-meta">
+                    <div><strong>Genre:</strong> @Model.Genre</div>
+                    <div><strong>Country:</strong> @Model.Country</div>
+                </div>
+
+                <div class="action-buttons">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    }
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

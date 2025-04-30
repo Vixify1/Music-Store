@@ -3,62 +3,86 @@
     ViewData["Title"] = "Album";
 }
 
-<h2>Albums</h2>
+<div class="hero">
+    <div class="container-glass">
+        <h2 class="page-title">Albums</h2>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New Album</a>
-</p>
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Artist</th>
-            <th>Release Date</th>
-            <th>Genre</th>
-            <th>Price</th>
-            <th>Cover</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
+        @if (User.IsInRole("Admin"))
         {
-            <tr>
-                <td>@item.Title</td>
-                <td>@item.Artist</td>
-                <td>@item.ReleaseDate.ToString("yyyy-MM-dd")</td>
-                <td>@item.GenreName</td>
-                <td>@item.Price.ToString("C")</td>
-
-                <td>
-                    @if (!string.IsNullOrEmpty(item.coverUrl))
-                    {
-                        <img src="@item.coverUrl" alt="@item.Title" style="max-width: 100px; max-height: 100px;" />
-                    }
-                </td>
-                <td>
-                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex align-items-center">
-                        <input type="hidden" name="albumId" value="@item.Id" />
-                        <div class="input-group" style="width: 150px;">
-                            <input type="number" name="quantity" value="1" min="1" class="form-control"
-                                style="width: 60px;" />
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                        </div>
-                    </form>
-
-                    <!-- Wishlist Form -->
-                    <form asp-controller="Wishlist" asp-action="AddToWishlist" method="post" class="wishlist-form">
-                        <input type="hidden" name="Id" value="@item.Id" />   <!--Here was a problem need to be careful should be name=id(Album) but was wishlist making the adding of a album with id 0 which doesn't exist-->
-                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                            <i class="bi bi-heart"></i> Add to Wishlist
-                        </button>
-                    </form>
-                    
-                </td>
-            </tr>
+            <p>
+                <a asp-action="Create" class="btn btn-success mb-3">
+                    <i class="bi bi-plus-circle"></i> Create New Album
+                </a>
+            </p>
         }
-    </tbody>
-</table>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Release Date</th>
+                    <th>Genre</th>
+                    <th>Price</th>
+                    <th>Cover</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Artist</td>
+                        <td>@item.ReleaseDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.GenreName</td>
+                        <td>@item.Price.ToString("C")</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.coverUrl))
+                            {
+                                <img src="@item.coverUrl" alt="@item.Title" class="cover-image" />
+                            }
+                        </td>
+                        <td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="d-flex">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-admin details">
+                                        <i class="bi bi-eye"></i> Details
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-admin edit">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-admin delete">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </a>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="d-flex flex-column">
+                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex align-items-center">
+                                        <input type="hidden" name="albumId" value="@item.Id" />
+                                        <div class="input-group">
+                                            <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                                            <button type="submit" class="btn btn-success">
+                                                <i class="fas fa-cart-plus"></i> Add to Cart
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <form asp-controller="Wishlist" asp-action="AddToWishlist" method="post" class="wishlist-form">
+                                        <input type="hidden" name="Id" value="@item.Id" />
+                                        <button type="submit" class="btn btn-outline-danger">
+                                            <i class="bi bi-heart"></i> Add to Wishlist
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

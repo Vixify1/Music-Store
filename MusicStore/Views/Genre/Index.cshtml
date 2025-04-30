@@ -1,42 +1,59 @@
 ﻿@model MusicStore.Models.Admin.Genre.GenreListViewModel
-<h2>Genre</h2>
-<a asp-action="Create" class="btn btn-success mb-3">+ Add New Genre</a>
-<form method="get" asp-controller="Genre" asp-action="Index" class="mb-4">
-    <div class="d-flex flex-wrap align-items-end gap-2">
-        <div>
-            <label for="name" class="sr-only">Genre Name</label>
-            <input type="text" name="searchName" id="searchName" class="form-control" placeholder="Search name" value="@Model.NameFilter" />
+
+<div class="hero">
+    <div class="container-glass">
+        <h2 class="page-title">Genres</h2>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a asp-action="Create" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Add New Genre
+            </a>
+            <form method="get" asp-controller="Genre" asp-action="Index" class="d-flex gap-2">
+                <div>
+                    <input type="text" name="searchName" id="searchName" class="form-control" placeholder="Search name" value="@Model.NameFilter" />
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-search"></i> Filter
+                    </button>
+                </div>
+                <div>
+                    <a href="@Url.Action("Index", "Genre")" class="btn btn-secondary">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset
+                    </a>
+                </div>
+            </form>
         </div>
-        <div>
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </div>
-        <div>
-            <a href="@Url.Action("Index", "Genre")" class="btn btn-secondary">Reset</a>
-        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Genres)
+                {
+                    <tr>
+                        <td>@item.GenreId</td>
+                        <td>@item.Name</td>
+                        <td>@item.Description</td>
+                        <td>
+                            <div class="d-flex">
+                                <a asp-action="Edit" asp-route-id="@item.GenreId" class="btn btn-admin edit">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.GenreId" class="btn btn-admin delete">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</form>
-<br />
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th style="width: 180px;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Genres)
-        {
-            <tr>
-                <td>@item.GenreId</td>
-                <td>@item.Name</td>
-                <td>@item.Description</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.GenreId" class="btn btn-sm btn-primary">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@item.GenreId" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>

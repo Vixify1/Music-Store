@@ -1,0 +1,38 @@
+@model MusicStore.Models.Admin.Genre.GenreViewModel
+
+@{
+    ViewData["Title"] = "Genre Details";
+}
+
+<div class="hero">
+    <div class="container-glass">
+        <h2 class="page-title">Genre Details</h2>
+
+        <div class="details-card">
+            <div class="detail-group">
+                <h4>@Model.Name</h4>
+                <p class="text-muted">Genre Name</p>
+            </div>
+
+            <div class="detail-group">
+                <p>@Model.Description</p>
+                <p class="text-muted">Description</p>
+            </div>
+
+            <div class="form-actions">
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Edit" asp-route-id="@Model.GenreId" class="btn btn-admin edit">
+                        <i class="bi bi-pencil"></i> Edit
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@Model.GenreId" class="btn btn-admin delete">
+                        <i class="bi bi-trash"></i> Delete
+                    </a>
+                }
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                </a>
+            </div>
+        </div>
+    </div>
+</div> 
