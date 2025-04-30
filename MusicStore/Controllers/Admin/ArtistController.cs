@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using MusicStore.Model.Abstract;
 using MusicStore.Model.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 public class ArtistController : Controller
 {
     private readonly IEntitiesRepository<ArtistEntities> _artistRepository;
+    private readonly IEntitiesRepository<Genre> _genreRepository;
 
-    public ArtistController(IEntitiesRepository<ArtistEntities> artistRepository)
+    public ArtistController(IEntitiesRepository<ArtistEntities> artistRepository, IEntitiesRepository<Genre> genreRepository)
     {
         _artistRepository = artistRepository;
+        _genreRepository = genreRepository;
     }
 
     [Authorize]
@@ -38,7 +41,18 @@ public class ArtistController : Controller
 
     public IActionResult Create()
     {
-        return View();
+        var genres = _genreRepository.GetAll().Select(a => new SelectListItem
+        {
+            Value = a.Name, 
+            Text = a.Name
+        }).ToList();
+
+        var model = new ArtistEntities
+        {
+            Generes = genres
+        };
+
+        return View(model);
     }
 
 

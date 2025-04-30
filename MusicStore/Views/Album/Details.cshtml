@@ -2,33 +2,139 @@
 @{
     ViewData["Title"] = "Album Details";
 }
-<h2>Album Details</h2>
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">@Model.Title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">@Model.Artist</h6>
-                <p class="card-text"><strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")</p>
-                <p class="card-text"><strong>Genre:</strong> @Model.GenreName</p>
-                <p class="card-text"><strong>Price:</strong> @Model.Price.ToString("C")</p>
+
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        color: white;
+        min-height: 100vh;
+        padding: 2rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .album-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .details-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .details-title {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: white;
+    }
+
+    .details-subtitle {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 1.5rem;
+    }
+
+    .details-text {
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .details-text strong {
+        color: rgba(0, 255, 159, 0.8);
+    }
+
+    .cover-image {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 15px;
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .no-cover {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn {
+        border-radius: 15px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0.25rem;
+    }
+
+    .btn-warning {
+        background: rgba(255, 193, 7, 0.8);
+        border: none;
+        color: #000;
+    }
+
+    .btn-warning:hover {
+        background: rgba(255, 193, 7, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+        background: rgba(108, 117, 125, 0.8);
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(108, 117, 125, 1);
+        transform: translateY(-2px);
+    }
+
+    .page-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        color: white;
+        text-align: center;
+    }
+</style>
+
+<div class="hero">
+    <div class="album-container">
+        <h2 class="page-title">Album Details</h2>
+
+        <div class="details-card">
+            <h3 class="details-title">@Model.Title</h3>
+            <h4 class="details-subtitle">@Model.Artist</h4>
+            
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="details-text"><strong>Release Date:</strong> @Model.ReleaseDate.ToString("yyyy-MM-dd")</p>
+                    <p class="details-text"><strong>Genre:</strong> @Model.GenreName</p>
+                    <p class="details-text"><strong>Price:</strong> @Model.Price.ToString("C")</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    @if (!string.IsNullOrEmpty(Model.coverUrl))
+                    {
+                        <img src="@Model.coverUrl" alt="@Model.Title" class="cover-image" />
+                    }
+                    else
+                    {
+                        <div class="no-cover">
+                            <span>No cover image available</span>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
+
+        <div class="d-flex gap-2">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
     </div>
-    <div class="col-md-4">
-        @if (!string.IsNullOrEmpty(Model.coverUrl))
-        {
-            <img src="@Model.coverUrl" alt="@Model.Title" class="img-fluid rounded" />
-        }
-        else
-        {
-            <div class="text-center p-4 bg-light rounded">
-                <span class="text-muted">No cover image available</span>
-            </div>
-        }
-    </div>
-</div>
-<div class="mt-4">
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

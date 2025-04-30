@@ -1,0 +1,82 @@
+@model IEnumerable<MusicStore.Models.AlbumViewModel>
+
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        color: white;
+        min-height: 100vh;
+        padding: 2rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .album-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .table {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .table th, .table td {
+        color: white;
+    }
+
+    .btn {
+        border-radius: 15px;
+    }
+</style>
+
+<div class="hero">
+    <div class="album-container">
+        <h2>Albums</h2>
+
+        @if (User.IsInRole("Admin"))
+        {
+            <p>
+                <a asp-action="Create" class="btn btn-success mb-3">+ Add New Album</a>
+            </p>
+        }
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Genre</th>
+                    <th>Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var album in Model)
+                {
+                    <tr>
+                        <td>@album.Title</td>
+                        <td>@album.Artist</td>
+                        <td>@album.GenreName</td>
+                        <td>@album.Price.ToString("C")</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@album.Id" class="btn btn-sm btn-primary">Details</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@album.Id" class="btn btn-sm btn-primary">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@album.Id" class="btn btn-sm btn-danger">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 

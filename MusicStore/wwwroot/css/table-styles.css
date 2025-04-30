@@ -1,0 +1,148 @@
+.hero {
+    background: url('/images/background.png') no-repeat center center/cover;
+    background-color: #000;
+    color: white;
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.container-glass {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.table {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 0;
+}
+
+.table th, .table td {
+    color: white;
+    border-color: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+}
+
+.table thead th {
+    background: rgba(0, 255, 159, 0.2);
+    border-bottom: 1px solid rgba(0, 255, 159, 0.3);
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.btn {
+    border-radius: 15px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin: 0.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: rgba(0, 123, 255, 0.8);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: rgba(0, 123, 255, 1);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background: rgba(40, 167, 69, 0.8);
+    border: none;
+}
+
+.btn-success:hover {
+    background: rgba(40, 167, 69, 1);
+    transform: translateY(-2px);
+}
+
+.btn-outline-danger {
+    border: 1px solid rgba(220, 53, 69, 0.8);
+    color: rgba(220, 53, 69, 0.8);
+}
+
+.btn-outline-danger:hover {
+    background: rgba(220, 53, 69, 0.8);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.page-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: white;
+    text-align: center;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(0, 255, 159, 0.3);
+    color: white;
+    box-shadow: none;
+}
+
+.input-group {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 0.25rem;
+}
+
+.btn-admin {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.btn-admin:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.btn-admin i {
+    font-size: 1.1rem;
+}
+
+.btn-admin.details:hover {
+    color: #00ff9f;
+    border-color: #00ff9f;
+}
+
+.btn-admin.edit:hover {
+    color: #ffd700;
+    border-color: #ffd700;
+}
+
+.btn-admin.delete:hover {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+.cover-image {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 8px;
+} 

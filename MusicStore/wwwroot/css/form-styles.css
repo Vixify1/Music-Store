@@ -1,0 +1,241 @@
+/* Form Container */
+.form-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    color: white;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group label i {
+    color: #00ff9f;
+}
+
+/* Form Controls */
+.form-control {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #00ff9f;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 159, 0.25);
+    color: white;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Form Text */
+.form-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.form-actions .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.form-actions .btn-primary {
+    background: #00ff9f;
+    border: none;
+    color: #000;
+}
+
+.form-actions .btn-primary:hover {
+    background: #00e68a;
+    transform: translateY(-2px);
+}
+
+.form-actions .btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.form-actions .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Validation */
+.text-danger {
+    color: #ff6b6b !important;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Select Dropdown */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300ff9f' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+select.form-control option {
+    background-color: #1a1a1a !important;
+    color: white !important;
+    padding: 0.5rem !important;
+}
+
+select.form-control option:hover {
+    background-color: rgba(0, 255, 159, 0.2) !important;
+}
+
+select.form-control option:checked {
+    background-color: rgba(0, 255, 159, 0.3) !important;
+    color: white !important;
+}
+
+select.form-control:focus {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    border-color: #00ff9f !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 159, 0.25) !important;
+    color: white !important;
+}
+
+/* Textarea */
+textarea.form-control {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Form Controls Styling */
+.form-control,
+.form-select {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border-color: rgba(0, 255, 159, 0.5) !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+/* Form Select Styling */
+.form-select {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2300ff9f' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 0.75rem center !important;
+    background-size: 16px 12px !important;
+    padding-right: 2.5rem !important;
+}
+
+.form-select option {
+    background-color: #1a1a1a !important;
+    color: white !important;
+    padding: 0.5rem !important;
+}
+
+.form-select option:hover {
+    background-color: rgba(0, 255, 159, 0.2) !important;
+}
+
+.form-select option:checked {
+    background-color: rgba(0, 255, 159, 0.3) !important;
+    color: white !important;
+}
+
+.form-select:focus {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+    border-color: #00ff9f !important;
+    box-shadow: 0 0 0 0.2rem rgba(0, 255, 159, 0.25) !important;
+    color: white !important;
+}
+
+/* Input Group Styling */
+.input-group .form-control,
+.input-group .form-select {
+    border-right: none !important;
+}
+
+.input-group .btn {
+    border-left: none !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.input-group .btn:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Disabled State */
+.form-control:disabled,
+.form-select:disabled {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Readonly State */
+.form-control[readonly] {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Validation States */
+.form-control.is-invalid {
+    border-color: rgba(220, 53, 69, 0.5) !important;
+}
+
+.form-control.is-valid {
+    border-color: rgba(40, 167, 69, 0.5) !important;
+}
+
+/* Form Labels */
+.form-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-bottom: 0.5rem !important;
+} 

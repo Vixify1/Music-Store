@@ -1,79 +1,97 @@
-﻿
-@model MusicStore.Models.Admin.Customer.CustomerViewModel
+﻿@model MusicStore.Models.Admin.Customer.CustomerViewModel
 
 @{
     ViewData["Title"] = "Create Customer";
 }
 
-<div class="container-fluid px-4">
-    <h1 class="mt-4">Create Customer</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
-        <li class="breadcrumb-item"><a asp-action="Index">Customers</a></li>
-        <li class="breadcrumb-item active">Create</li>
-    </ol>
+<div class="container-glass">
+    <div class="page-title">
+        <i class="bi bi-person-plus"></i>
+        Create Customer
+    </div>
 
-    <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-user-plus me-1"></i> Create New Customer Profile
-        </div>
-        <div class="card-body">
-            <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-container">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                <div class="mb-3">
-                    <label asp-for="UserId" class="form-label"></label>
-                    <select asp-for="UserId" class="form-select" asp-items="ViewBag.AvailableUsers">
-                        <option value="">-- Select User --</option>
-                    </select>
-                    <span asp-validation-for="UserId" class="text-danger"></span>
-                    <small class="form-text text-muted">Select the user to associate with this customer profile</small>
-                </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="form-label">
+                    <i class="bi bi-person-badge"></i>
+                    User
+                </label>
+                <select asp-for="UserId" class="form-control" asp-items="ViewBag.AvailableUsers">
+                    <option value="">-- Select User --</option>
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+                <small class="form-text">Select the user to associate with this customer profile</small>
+            </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    </div>
+            <div class="form-group">
+                <label asp-for="Email" class="form-label">
+                    <i class="bi bi-envelope"></i>
+                    Email
+                </label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label asp-for="FirstName" class="form-label"></label>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="form-label">
+                            <i class="bi bi-person"></i>
+                            First Name
+                        </label>
                         <input asp-for="FirstName" class="form-control" />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
+                </div>
 
-                    <div class="col-md-6">
-                        <label asp-for="LastName" class="form-label"></label>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="form-label">
+                            <i class="bi bi-person"></i>
+                            Last Name
+                        </label>
                         <input asp-for="LastName" class="form-control" />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <label asp-for="Phone" class="form-label"></label>
-                    <input asp-for="Phone" class="form-control" />
-                    <span asp-validation-for="Phone" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="form-label">
+                    <i class="bi bi-telephone"></i>
+                    Phone
+                </label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
 
-                <div class="mb-3">
-                    <label asp-for="Address" class="form-label"></label>
-                    <textarea asp-for="Address" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="Address" class="form-label">
+                    <i class="bi bi-geo-alt"></i>
+                    Address
+                </label>
+                <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
 
-                <div class="d-flex justify-content-between">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-save me-1"></i> Create
-                    </button>
-                    <a asp-action="Index" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left me-1"></i> Back to List
-                    </a>
-                </div>
-            </form>
-        </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i>
+                    Create
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to List
+                </a>
+            </div>
+        </form>
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 
