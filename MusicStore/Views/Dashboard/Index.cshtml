@@ -95,16 +95,7 @@
                                             <td>@order.CustomerName</td>
                                             <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
                                             <td>$@order.TotalAmount.ToString("F2")</td>
-                                            <td>
-@*                                                 <span class="badge badge-@( *@
-@*                                            order.Status.ToString() == "Completed" ? "success" : *@
-@*                                            order.Status.ToString()  == "Pending" ? "warning" : *@
-@*                                            order.Status.ToString()  == "Cancelled" ? "danger" : *@
-@*                                            order.Status.ToString()  == "Processing" ? "info" : "secondary" *@
-@* )"> *@
-@*                                                     @order.Status *@
-@*                                                 </span> *@
-                                            </td>
+                                            <td>@order.Status</td>  @* Just displays the text like "Completed", "Pending", etc. *@
                                         </tr>
                                     }
                                 }

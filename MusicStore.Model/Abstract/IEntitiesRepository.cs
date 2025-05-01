@@ -74,5 +74,10 @@ namespace MusicStore.Model.Abstract
         Task<int> SaveChangesAsync();
         Task<int> CountAsync();
         Task<IEnumerable<T>> GetAllWithIncludesAsync(params Expression<Func<T, object>>[] includes);
+
+        // Review
+
+        void Update(T existingEntity, T newValues);
+
     }
 }
