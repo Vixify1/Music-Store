@@ -42,8 +42,7 @@ namespace MusicStore.Controllers.Admin
         // Dashboard
         public async Task<IActionResult> Index()
         {
-
-            var ordersWithCustomer = await _ordersRepository.GetAllWithIncludesAsync(o => o.Customer);
+            var ordersWithCustomer = await _ordersRepository.GetAllWithIncludesAsync(o => o.Customer, o => o.OrderItems);
             var recentOrders = ordersWithCustomer
                                 .OrderByDescending(o => o.OrderDate)
                                 .Take(5)
@@ -51,14 +50,13 @@ namespace MusicStore.Controllers.Admin
                                 {
                                     OrderId = o.OrderId,
                                     CustomerName = o.Customer != null
-                                                                         ? $"{o.Customer.firstName} {o.Customer.lastName}".Trim() : "Unknown",
+                                    ? $"{o.Customer.firstName} {o.Customer.lastName}".Trim() : "Unknown",
                                     OrderDate = o.OrderDate,
-                                    TotalAmount = o.TotalAmount,
+                                    TotalAmount = o.OrderItems?.Sum(oi => oi.Quantity * oi.UnitPrice) ?? 0,
                                     Status = o.Status,
                                     StatusBadge = o.Status.ToString() == "Completed" ? "success"
                                                     : o.Status.ToString() == "Pending" ? "warning"
                                                     : o.Status.ToString() == "Cancelled" ? "danger" : "info"
-
                                 }).ToList();
 
 

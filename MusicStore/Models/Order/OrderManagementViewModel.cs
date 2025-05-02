@@ -31,7 +31,7 @@ namespace MusicStore.Models.Admin.Order
         public string CustomerSortParam => SortOrder == "customer" ? "date_desc" : "customer";
         public string StatusSortParam => SortOrder == "status" ? "date_desc" : "status";
 
-        
+
         public string GetSortIconClass(string column)
         {
             if (!SortOrder.StartsWith(column))
