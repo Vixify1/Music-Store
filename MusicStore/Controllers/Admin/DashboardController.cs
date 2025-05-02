@@ -95,7 +95,7 @@ namespace MusicStore.Controllers.Admin
                     Artist = album.Artist,
                     TotalOrderedQuantity = orderItems
                         .SelectMany(o => o.OrderItems)
-                        .Where(oi => oi.Id == album.Id)
+                        .Where(oi => oi.AlbumId == album.Id)
                         .Sum(oi => oi.Quantity)
                 })
                 .ToList();

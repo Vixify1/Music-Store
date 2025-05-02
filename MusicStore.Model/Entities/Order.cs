@@ -29,6 +29,7 @@ namespace MusicStore.Model.Entities
         [ForeignKey("CustomerId")]
         public virtual Customer Customer { get; set; }
 
-        public virtual ICollection<OrderItems> OrderItems { get; set; }
+        public virtual ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
+
     }
 }

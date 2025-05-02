@@ -14,9 +14,9 @@ namespace MusicStore.Model.Entities
         [ForeignKey("OrderId")]
         public Order Order { get; set; }
 
-        public int Id { get; set; }
+        public int AlbumId { get; set; }
 
-        [ForeignKey("Id")]
+        [ForeignKey("AlbumId")]
         public Album Album { get; set; }
 
         public int Quantity { get; set; }

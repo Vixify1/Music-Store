@@ -12,8 +12,8 @@ using MusicStore.Model.Context;
 namespace MusicStore.Model.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250426125318_OrderItems")]
-    partial class OrderItems
+    [Migration("20250501133033_AddThePaymentEntities")]
+    partial class AddThePaymentEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -534,6 +534,42 @@ namespace MusicStore.Model.Migrations
                     b.ToTable("OrderItems");
                 });
 
+            modelBuilder.Entity("MusicStore.Model.Entities.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Payment");
+                });
+
             modelBuilder.Entity("MusicStore.Model.Entities.UserRole", b =>
                 {
                     b.Property<int>("UserId")
@@ -547,6 +583,32 @@ namespace MusicStore.Model.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("MusicStore.Model.Entities.Wishlist", b =>
+                {
+                    b.Property<int>("WishlistId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WishlistId"));
+
+                    b.Property<int>("AlbumId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("WishlistId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("Wishlist");
                 });
 
             modelBuilder.Entity("MusicStore.Model.Entities.UserClaim", b =>
@@ -693,6 +755,17 @@ namespace MusicStore.Model.Migrations
                     b.Navigation("Order");
                 });
 
+            modelBuilder.Entity("MusicStore.Model.Entities.Payment", b =>
+                {
+                    b.HasOne("MusicStore.Model.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("MusicStore.Model.Entities.UserRole", b =>
                 {
                     b.HasOne("MusicStore.Model.Entities.ApplicationRole", "Role")
@@ -709,6 +782,25 @@ namespace MusicStore.Model.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MusicStore.Model.Entities.Wishlist", b =>
+                {
+                    b.HasOne("MusicStore.Model.Entities.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MusicStore.Model.Entities.Customer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Album");
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("MusicStore.Model.Entities.UserClaim", b =>

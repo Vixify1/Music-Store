@@ -235,5 +235,14 @@ namespace MusicStore.Model.Concrete
 
             return await query.ToListAsync();
         }
+
+
+        // For review , since we want only some entities to update 
+        public virtual void Update(T existingEntity, T newValues)
+        {
+            _context.Entry(existingEntity).CurrentValues.SetValues(newValues);
+            SaveChanges();
+        }
+
     }
 }

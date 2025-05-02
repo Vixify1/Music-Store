@@ -121,7 +121,7 @@ namespace MusicStore.Controllers
                 var orderItem = new OrderItems
                 {
                     OrderId = order.OrderId,
-                    Id = cartItem.Id,
+                    AlbumId = cartItem.Id,
                     Quantity = cartItem.Quantity,
                     UnitPrice = cartItem.Album?.Price ?? 0
                 };
