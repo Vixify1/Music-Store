@@ -5,7 +5,7 @@
 namespace MusicStore.Model.Migrations
 {
     /// <inheritdoc />
-    public partial class RenameOrderItemAlbumIdColumn : Migration
+    public partial class ChangedFKInOrderItemsFromIdtoAlbumId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
