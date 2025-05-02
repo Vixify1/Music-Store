@@ -113,7 +113,7 @@ namespace MusicStore.Controllers
             };
 
             _orderRepository.Add(order);
-            _orderRepository.SaveChanges();
+          
 
             // Create order items
             foreach (var cartItem in cart.CartItems)
@@ -127,15 +127,15 @@ namespace MusicStore.Controllers
                 };
                 _orderItemsRepository.Add(orderItem);
             }
-            _orderItemsRepository.SaveChanges();
 
             // Clear the cart
             cart.CartItems.Clear();
             _cartRepository.Update(cart);
-            _cartRepository.SaveChanges();
 
             TempData["SuccessMessage"] = "Order placed successfully!";
-            return RedirectToAction("Index", "Home");
+            // Instead of redirecting to home, redirect to the payment page
+            return RedirectToAction("Create", "Payment", new { orderId = order.OrderId });
+            //return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Confirmation(int orderId)
