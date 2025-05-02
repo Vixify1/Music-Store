@@ -329,6 +329,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Payment" asp-action="Admin">
+                            <i class="bi bi-bag-check"></i>
+                            Check Payments
+                        </a>
+                    </li>
+
                     <li class="nav-item logout-button">
                         <form method="post" asp-controller="Authentication" asp-action="Logout">
                             @Html.AntiForgeryToken()
@@ -364,6 +371,7 @@
                             <a asp-controller="UserProfile" asp-action="Index" class="auth-button">My Profile</a>
                             <a asp-controller="Order" asp-action="Index" class="auth-button">My Orders</a>
                             <a asp-controller="Review" asp-action="Index" class="auth-button">Product Reviewed </a>
+                            <a asp-controller="Payment" asp-action="Index" class="auth-button">My Payments </a>
 
 
 

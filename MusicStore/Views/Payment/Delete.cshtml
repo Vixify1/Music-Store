@@ -1,0 +1,194 @@
+﻿@model MusicStore.Models.Payment.PaymentUpdateStatusViewModel
+@{
+    ViewData["Title"] = "Delete Payment";
+}
+
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        color: white;
+        min-height: 100vh;
+        padding: 2rem;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .payment-container {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+        margin-bottom: 2rem;
+    }
+
+    .card-header {
+        background: rgba(220, 53, 69, 0.2);
+        color: white;
+        font-weight: bold;
+        border-top-left-radius: 15px !important;
+        border-top-right-radius: 15px !important;
+        border-bottom: 1px solid rgba(220, 53, 69, 0.3);
+        padding: 1.5rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+        color: white;
+    }
+
+    .card-title {
+        color: #ff6b81;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+    }
+
+    .detail-item {
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+    }
+
+    .detail-label {
+        color: #ff6b81;
+        font-weight: 500;
+    }
+
+    .detail-value {
+        color: white;
+        font-weight: 400;
+    }
+
+    .warning-icon {
+        font-size: 4rem;
+        color: #ff6b81;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .warning-text {
+        background: rgba(220, 53, 69, 0.1);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        color: #ff6b81;
+    }
+
+    .btn-danger {
+        background: rgba(220, 53, 69, 0.2);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        color: #ff6b81;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.8rem 1.5rem;
+        transition: all 0.3s;
+    }
+
+        .btn-danger:hover {
+            background: rgba(220, 53, 69, 0.3);
+            border-color: rgba(220, 53, 69, 0.5);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    .btn-secondary {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.8rem 1.5rem;
+        transition: all 0.3s;
+        background: transparent;
+    }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    h2 {
+        color: white;
+        font-weight: 600;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+</style>
+
+<div class="hero">
+    <div class="payment-container">
+        <h2>Delete Payment</h2>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Confirm Delete</h4>
+            </div>
+            <div class="card-body">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <div class="warning-text">
+                    <p><strong>Warning:</strong> You are about to delete this payment record. This action cannot be undone.</p>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Payment ID:</span>
+                    <span class="detail-value">@Model.PaymentId</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Order ID:</span>
+                    <span class="detail-value">@Model.OrderId</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Customer:</span>
+                    <span class="detail-value">@Model.CustomerName</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Amount:</span>
+                    <span class="detail-value">@Model.TotalAmount.ToString("C")</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Status:</span>
+                    <span class="detail-value">@Model.PaymentStatus</span>
+                </div>
+
+                <div class="detail-item">
+                    <span class="detail-label">Payment Date:</span>
+                    <span class="detail-value">@Model.PaymentDate.ToString("g")</span>
+                </div>
+
+                <form asp-action="DeleteConfirmed" method="post" class="mt-4">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.PaymentId" />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Admin" class="btn btn-secondary">
+                            Back to List
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            Delete Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
