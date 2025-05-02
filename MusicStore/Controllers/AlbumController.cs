@@ -5,6 +5,7 @@ using MusicStore.Model.Abstract;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authorization;
 using MusicStore.Models.Admin.Genre;
+using Microsoft.AspNetCore.Identity;
 
 namespace MusicStore.Models
 {
@@ -13,15 +14,25 @@ namespace MusicStore.Models
         private readonly IEntitiesRepository<Album> _albumRepository;
         private readonly IEntitiesRepository<Genre> _genreRepository;
         private readonly IEntitiesRepository<ArtistEntities> _artistRepository;
+        private readonly IEntitiesRepository<Reviews> _reviewRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEntitiesRepository<Customer> _customerRepository;
+
 
         public AlbumController(
             IEntitiesRepository<Album> albumRepository,
             IEntitiesRepository<Genre> genreRepository,
-            IEntitiesRepository<ArtistEntities> artistRepository)
+            IEntitiesRepository<ArtistEntities> artistRepository,
+            IEntitiesRepository<Reviews> reviewRepository,
+            UserManager<ApplicationUser> userManager,
+            IEntitiesRepository<Customer> customerRepository)
         {
             _albumRepository = albumRepository;
             _genreRepository = genreRepository;
             _artistRepository = artistRepository;
+            _reviewRepository = reviewRepository;
+            _userManager = userManager;
+            _customerRepository = customerRepository;
         }
         [Authorize]
         public IActionResult Index()
@@ -54,7 +65,31 @@ namespace MusicStore.Models
             // Get the genre information
             var genre = _genreRepository.Get(album.GenreId);
 
-            // Map to view model
+
+            // Get the reviews for the album
+            var reviews = _reviewRepository.GetAll()
+                                           .Where(r => r.AlbumId == album.Id)
+                                           .Include(r => r.Customer)
+                                            .ThenInclude(c => c.User) 
+                                           .ToList();
+            // Get currently logged-in user ID
+            var userId = _userManager.GetUserId(User);
+
+            // Find the Customer linked to this user
+            var customer = _customerRepository.GetAll()
+                                              .FirstOrDefault(c => c.UserId.ToString() == userId);
+
+            // Build ViewBags
+            var albumsList = _albumRepository.GetAll()
+                .Select(a => new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Title
+                }).ToList();
+
+            ViewBag.Albums = new SelectList(albumsList, "Value", "Text", album.Id);
+            ViewBag.CustomerId = customer?.Id;
+
             var viewModel = new AlbumViewModel
             {
                 Id = album.Id,
@@ -62,9 +97,10 @@ namespace MusicStore.Models
                 Artist = album.Artist,
                 ReleaseDate = album.ReleaseDate,
                 GenreId = album.GenreId,
-                GenreName = genre?.Name, // Use the genre name
+                GenreName = genre?.Name, 
                 Price = album.Price,
-                coverUrl = album.coverUrl
+                coverUrl = album.coverUrl,
+                Reviews = reviews 
             };
 
             return View(viewModel);

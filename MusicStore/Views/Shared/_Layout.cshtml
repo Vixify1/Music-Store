@@ -363,6 +363,9 @@
                         <div class="auth-buttons">
                             <a asp-controller="UserProfile" asp-action="Index" class="auth-button">My Profile</a>
                             <a asp-controller="Order" asp-action="Index" class="auth-button">My Orders</a>
+                            <a asp-controller="Review" asp-action="Index" class="auth-button">Product Reviewed </a>
+
+
 
                             <form method="post" asp-controller="Authentication" asp-action="Logout" style="display: inline;">
                                 @Html.AntiForgeryToken()
