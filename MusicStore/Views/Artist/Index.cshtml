@@ -29,7 +29,8 @@
         margin-bottom: 0;
     }
 
-    .table th, .table td {
+    .table th,
+    .table td {
         color: white;
         border-color: rgba(255, 255, 255, 0.1);
         padding: 1rem;
@@ -89,10 +90,45 @@
         color: white;
         text-align: center;
     }
+
+    .btn-admin {
+        background: rgba(0, 255, 159, 0.2);
+        border: none;
+        color: white;
+    }
+
+    .btn-admin:hover {
+        background: rgba(0, 255, 159, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .btn-admin.details {
+        background: rgba(0, 123, 255, 0.2);
+    }
+
+    .btn-admin.details:hover {
+        background: rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-admin.edit {
+        background: rgba(255, 193, 7, 0.2);
+    }
+
+    .btn-admin.edit:hover {
+        background: rgba(255, 193, 7, 0.3);
+    }
+
+    .btn-admin.delete {
+        background: rgba(220, 53, 69, 0.2);
+    }
+
+    .btn-admin.delete:hover {
+        background: rgba(220, 53, 69, 0.3);
+    }
 </style>
 
 <div class="hero">
-    <div class="container-glass">
+    <div class="artist-container">
         <h2 class="page-title">Artists</h2>
 
         @if (User.IsInRole("Admin"))
@@ -137,8 +173,8 @@
                             }
                             else
                             {
-                                <a asp-action="Details" asp-route-id="@artist.Id" class="btn btn-admin details">
-                                    <i class="bi bi-eye"></i> Details
+                                <a asp-action="Browse" asp-route-id="@artist.Id" class="btn btn-admin details">
+                                    <i class="bi bi-music-note-list"></i> View Albums
                                 </a>
                             }
                         </td>
