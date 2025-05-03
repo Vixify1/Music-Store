@@ -1,0 +1,63 @@
+﻿@model MusicStore.Model.Entities.Reviews
+@{
+    ViewData["Title"] = "Write a Review";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="mb-4">@ViewData["Title"]</h2>
+
+            @if (ViewBag.NoOrderedAlbums == true)
+            {
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i> You haven't purchased any albums yet. Please order an album before writing a review.
+                </div>
+                <a asp-action="Index" class="btn btn-secondary mt-3">Back to Reviews</a>
+            }
+            else
+            {
+                <form asp-action="Create" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="AlbumId" class="form-label">Album</label>
+                        <select asp-for="AlbumId" class="form-select" asp-items="ViewBag.Albums">
+                            <option value="">-- Select Album --</option>
+                        </select>
+                        <span asp-validation-for="AlbumId" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Rating" class="form-label">Rating (1–5)</label>
+                        <input asp-for="Rating" type="number" min="1" max="5" class="form-control" />
+                        <span asp-validation-for="Rating" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Comment" class="form-label">Comment</label>
+                        <textarea asp-for="Comment" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Comment" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" asp-for="CustomerId" value="@ViewBag.CustomerId" />
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left-circle me-1"></i>Back
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-send-check me-1"></i>Submit Review
+                        </button>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

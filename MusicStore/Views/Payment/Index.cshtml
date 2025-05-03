@@ -33,7 +33,11 @@
                         </td>
                         <td>
                             <a asp-action="Details" asp-route-id="@item.PaymentId" class="btn btn-sm btn-info">Details</a>
+                            <a asp-action="Cancel" asp-route-id="@item.PaymentId" class="btn btn-danger"> Cancel Payment</a>
+
                         </td>
+
+                       
                     </tr>
                 }
             </tbody>

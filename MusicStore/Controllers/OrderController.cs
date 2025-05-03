@@ -194,6 +194,7 @@ namespace MusicStore.Controllers
 
 
         // Management Orders method  for admin purpose
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> OrderManagement(string searchString, string status = "", int page = 1, string sortOrder = "date_desc")
         {
             var pageSize = 8; //10

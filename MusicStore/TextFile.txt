@@ -1,0 +1,9 @@
+﻿
+
+
+About the ReviewController 
+Index- Login users can see all reviews  , for shortcut I have added a button in the navigation bar "Producted Reviewed"
+Create- Users can create a review for a product only if they have order it 
+Update/Delete- Users can update or delete their own reviews , will be shown to them as 2 buttons in the review page
+
+Also the important is the Album/Details/albumId , if you go here you can see the reviews for that album , which is important , here you can change the style 

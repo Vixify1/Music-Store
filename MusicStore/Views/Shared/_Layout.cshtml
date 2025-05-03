@@ -201,6 +201,37 @@
             align-items: center;
             gap: 1rem;
         }
+
+        <!--Wishlist Icon-->
+
+        .wishlist-icon {
+            position: relative;
+            text-decoration: none;
+            color: white;
+        }
+
+        .heart-icon {
+            color: #ff6b6b; /* Red color for the heart */
+            transition: color 0.3s ease;
+        }
+
+        .wishlist-icon:hover .heart-icon {
+            color: #ff4757; /* Slightly darker red on hover */
+            transform: scale(1.1);
+            transition: transform 0.3s ease;
+        }
+
+        /* If you want to add a badge for the wishlist count */
+        .wishlist-badge {
+            background: #ff6b6b;
+            color: white;
+            font-size: 0.6rem;
+            border-radius: 50%;
+            padding: 2px 5px;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+        }
     </style>
 </head>
 
@@ -332,6 +363,13 @@
                         </a>
                     </li> *@
 
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Payment" asp-action="Admin">
+                            <i class="bi bi-bag-check"></i>
+                            Check Payments
+                        </a>
+                    </li>
+
                     <li class="nav-item logout-button">
                         <form method="post" asp-controller="Authentication" asp-action="Logout">
                             @Html.AntiForgeryToken()
@@ -369,6 +407,9 @@
                         <div class="auth-buttons">
                             <a asp-controller="UserProfile" asp-action="Index" class="auth-button">My Profile</a>
                             <a asp-controller="Order" asp-action="Index" class="auth-button">My Orders</a>
+                            <a asp-controller="Review" asp-action="Index" class="auth-button">Product Reviewed </a>
+                            <a asp-controller="Payment" asp-action="Index" class="auth-button">My Payments </a>
+
 
                             <form method="post" asp-controller="Authentication" asp-action="Logout" style="display: inline;">
                                 @Html.AntiForgeryToken()
@@ -383,7 +424,12 @@
                             <div class="icon">
                                 @await Html.PartialAsync("_CartBadge")
                             </div>
-                        </div>
+                            
+                               <div>
+                                <a class="icon wishlist-icon" asp-controller="Wishlist" asp-action="Index">
+                                    <i class="bi bi-heart-fill heart-icon"></i>
+                                </a>
+                            </div>
                     </div>
                 </header>
 

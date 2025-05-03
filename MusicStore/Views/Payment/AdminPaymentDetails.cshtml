@@ -1,7 +1,7 @@
 ﻿@model MusicStore.Model.Entities.Payment
 
 @{
-    ViewData["Title"] = "Payment Details";
+    ViewData["Title"] = "Admin Payment Details";
 }
 
 <style>
@@ -125,12 +125,15 @@
                             <dt class="col-sm-4">Method:</dt>
                             <dd class="col-sm-8">@Model.PaymentMethod</dd>
 
-                            <dt class="col-sm-4">Status: 
-                         
-                               <dd>
+                            <dt class="col-sm-4">Status:</dt>
+                            <dd class="col-sm-8">
+                                <p>
+                                <span >
                                     @Model.PaymentStatus
-                                </dd>
-                            </dt>
+                                </span>
+                                </p>
+                            </dd>
+
                             <dt class="col-sm-4">Transaction ID:</dt>
                             <dd class="col-sm-8">@Model.TransactionId</dd>
                         </dl>
@@ -162,14 +165,15 @@
             </div>
             <div class="card-footer">
                 <div class="d-flex justify-content-between">
-                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <a asp-action="Admin" class="btn btn-secondary">Back to List</a>
                     @if (Model.PaymentStatus == "Pending")
                     {
-                        <form asp-action="Cancel" asp-route-id="@Model.PaymentId" method="post"
-                              onsubmit="return confirm('Are you sure you want to cancel this payment?');">
+                        <a asp-action="Delete" asp-route-id="@Model.PaymentId" method="get" class="btn btn-danger">
+                            Cancel Payment
+                            @* Added anti-forgery token for security *@
                             @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-danger">Cancel Payment</button>
-                        </form>
+                            
+                        </a>
                     }
                     <a asp-controller="Order" asp-action="Details" asp-route-id="@Model.OrderId" class="btn btn-primary">View Order</a>
                 </div>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using MusicStore.Model.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace MusicStore.Models
 {
@@ -24,6 +25,10 @@ namespace MusicStore.Models
         public decimal Price { get; set; }
 
         public string coverUrl { get; set; }
+
+
+        // Add this property for reviews
+        public List<Reviews> Reviews { get; set; }
     }
 }
 

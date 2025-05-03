@@ -283,67 +283,164 @@ namespace MusicStore.Controllers
             }
 
             return RedirectToAction("Details", "Order", new { id = payment.OrderId });
-        }  //they do their job 
+        }
 
-        //// Admin-only actions
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet]
-        //public async Task<IActionResult> UpdateStatus(int id)
-        //{
-        //    var payment = await _context.Payments.FindAsync(id);
-        //    if (payment == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var viewModel = new PaymentUpdateStatusViewModel
-        //    {
-        //        PaymentId = payment.PaymentId,
-        //        PaymentStatus = payment.PaymentStatus
-        //    };
 
-        //    return View(viewModel);
-        //}
+        // ADMIN: View all payments
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> Admin()
+        {
+            var payments = await _paymentRepository.GetAll()
+                .Include(p => p.Order)
+                .ThenInclude(o => o.Customer)
+                .ThenInclude(c => c.User)
+                .OrderByDescending(p => p.PaymentDate)
+                .Select(p => new PaymentUpdateStatusViewModel
+                {
+                    PaymentId = p.PaymentId,
+                    OrderId = p.OrderId,
+                    CustomerName = p.Order.Customer.User.FullName,
+                    TotalAmount = p.Order.TotalAmount,
+                    PaymentStatus = p.PaymentStatus,
+                    PaymentDate = p.PaymentDate
+                })
+                .ToListAsync();
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UpdateStatus(int id, string status)
-        //{
-        //    var payment = await _context.Payments.FindAsync(id);
-        //    if (payment == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return View(payments);
+        }
 
-        //    payment.PaymentStatus = status;
-        //    await _context.SaveChangesAsync();
 
-        //    TempData["Success"] = "Payment status updated successfully.";
-        //    return RedirectToAction("Admin");
-        //}
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpGet]
-        //public async Task<IActionResult> Admin()
-        //{
-        //    var payments = await _context.Payments
-        //        .Include(p => p.Order)
-        //        .ThenInclude(o => o.Customer)
-        //        .ThenInclude(c => c.User)
-        //        .OrderByDescending(p => p.PaymentDate)
-        //        .Select(p => new PaymentUpdateStatusViewModel
-        //        {
-        //            PaymentId = p.PaymentId,
-        //            OrderId = p.OrderId,
-        //            CustomerName = p.Order.Customer.User.FullName,
-        //            TotalAmount = p.Order.TotalAmount,
-        //            PaymentStatus = p.PaymentStatus,
-        //            PaymentDate = p.PaymentDate
-        //        })
-        //        .ToListAsync();
+        // Creating a new method  because I am using customerId for the consumer to see their payments , but obviously admin has another Id but it should see all the payment in database
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AdminPaymentDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(payments);
-        //}
+            var payment = await _paymentRepository.GetAll()
+                .Include(p => p.Order)
+                .ThenInclude(o => o.Customer)
+                .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(p => p.OrderId == id); // Use OrderId here
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+
+
+            return View(payment);
+        }
+        // ADMIN: GET UpdateStatus form
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> UpdateStatus(int id)
+        {
+            var payment = await _paymentRepository.GetAll()
+                .Include(p => p.Order)
+                 .ThenInclude(o => o.Customer)
+                 .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(p => p.OrderId == id);
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            // Populate the ViewModel
+            var viewModel = new PaymentUpdateStatusViewModel
+            {
+                PaymentId = payment.PaymentId,
+                OrderId = payment.OrderId,
+                PaymentStatus = payment.PaymentStatus, // This will be used in the View
+                CustomerName = payment.Order.Customer.User.FullName,
+                TotalAmount = payment.Order.TotalAmount,
+                PaymentDate = payment.PaymentDate
+            };
+
+            // Populate the ViewBag with current payment status for the dropdown
+            ViewBag.SelectedStatus = payment.PaymentStatus;
+
+            return View(viewModel);
+        }
+
+        // ADMIN: POST UpdateStatus
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateStatus(int id, string status)
+        {
+            var payment = await _paymentRepository.GetAll()
+                .Include(p => p.Order)
+                .FirstOrDefaultAsync(p => p.PaymentId == id);
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            payment.PaymentStatus = status;
+            _paymentRepository.Update(payment);
+
+            TempData["Success"] = "Payment status updated successfully.";
+            return RedirectToAction("Admin");
+        }
+
+        // ADMIN: GET Delete confirmation page
+        [Authorize(Roles = "Admin")]   //->>>>>>>>>>> This is a problem when cancel 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var payment = await _paymentRepository.GetAll()
+                .Include(p => p.Order)
+                .ThenInclude(o => o.Customer)
+                .ThenInclude(c => c.User)
+                .FirstOrDefaultAsync(p => p.PaymentId == id);
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            // Populate the ViewModel
+            var viewModel = new PaymentUpdateStatusViewModel
+            {
+                PaymentId = payment.PaymentId,
+                OrderId = payment.OrderId,
+                PaymentStatus = payment.PaymentStatus,
+                CustomerName = payment.Order.Customer.User.FullName,
+                TotalAmount = payment.Order.TotalAmount,
+                PaymentDate = payment.PaymentDate
+            };
+
+            return View(viewModel);
+        }
+
+        // ADMIN: POST Delete confirmation
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var payment = await _paymentRepository.GetAsync(id);
+
+            if (payment == null)
+            {
+                return NotFound();
+            }
+
+            _paymentRepository.Remove(payment);
+
+            TempData["Success"] = "Payment successfully deleted.";
+            return RedirectToAction("Admin");
+        }
+
+
     }
 }
