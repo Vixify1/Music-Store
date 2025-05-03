@@ -3,6 +3,6 @@
     public class GenreListViewModel
     {
         public string? NameFilter { get; set; }
-        public List<GenreViewModel> Genres{ get; set; } = new();
+        public List<GenreViewModel> Genres { get; set; } = new();
     }
 }

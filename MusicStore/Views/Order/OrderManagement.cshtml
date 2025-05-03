@@ -13,7 +13,8 @@
             <div class="row g-3">
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search by order ID or customer...">
+                        <input type="text" name="searchString" value="@Model.SearchString" class="form-control"
+                            placeholder="Search by order ID or customer...">
                         <button type="submit" class="btn btn-admin">
                             <i class="bi bi-search"></i>
                         </button>
@@ -73,7 +74,9 @@
                 <thead>
                     <tr>
                         <th>
-                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.DateSortParam" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status" asp-route-page="@Model.CurrentPage">
+                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.DateSortParam"
+                                asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status"
+                                asp-route-page="@Model.CurrentPage">
                                 Order Date
                                 <i class="@Model.GetSortIconClass("date")"></i>
                             </a>
@@ -81,14 +84,18 @@
                         <th>Order ID</th>
                         <th>Customer</th>
                         <th>
-                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.StatusSortParam" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status" asp-route-page="@Model.CurrentPage">
+                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.StatusSortParam"
+                                asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status"
+                                asp-route-page="@Model.CurrentPage">
                                 Status
                                 <i class="@Model.GetSortIconClass("status")"></i>
                             </a>
                         </th>
                         <th>Items</th>
                         <th>
-                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.TotalSortParam" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status" asp-route-page="@Model.CurrentPage">
+                            <a asp-action="OrderManagement" asp-route-sortOrder="@Model.TotalSortParam"
+                                asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status"
+                                asp-route-page="@Model.CurrentPage">
                                 Total
                                 <i class="@Model.GetSortIconClass("total")"></i>
                             </a>
@@ -104,29 +111,31 @@
                             <td>#@order.OrderId</td>
                             <td>@order.CustomerName</td>
                             <td>
-                                <span class="status-badge @(order.Status == MusicStore.Model.Entities.OrderStatus.Completed ? "status-completed" : 
-                                                          order.Status == MusicStore.Model.Entities.OrderStatus.Pending ? "status-pending" :
-                                                          order.Status == MusicStore.Model.Entities.OrderStatus.Cancelled ? "status-cancelled" : "status-other")">
-                                    @order.Status
-                                </span>
-                            </td>
-                            <td>@order.OrderItems.Count</td>
-                            <td class="order-amount">@order.TotalAmount.ToString("C")</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-admin">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-                                    <a asp-action="Edit" asp-controller="Order" asp-route-id="@order.OrderId" class="btn btn-admin">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <a asp-action="Delete" asp-route-id="@order.OrderId" class="btn btn-admin delete">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    }
+                                <span
+                                    class="status-badge @(order.Status == MusicStore.Model.Entities.OrderStatus.Completed ? "status-completed" : 
+                                                              order.Status == MusicStore.Model.Entities.OrderStatus.Pending ? "status-pending" :
+                                                              order.Status == MusicStore.Model.Entities.OrderStatus.Cancelled ? "status-cancelled" : "status-other")">
+                                @order.Status
+                            </span>
+                        </td>
+                        <td>@order.OrderItems.Count</td>
+                        <td class="order-amount">@order.TotalAmount.ToString("C")</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a asp-action="Details" asp-route-id="@order.OrderId" class="btn btn-admin">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-controller="Order" asp-route-id="@order.OrderId"
+                                    class="btn btn-admin">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@order.OrderId" class="btn btn-admin delete">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                                        }
                     @if (!Model.Orders.Any())
                     {
                         <tr>
@@ -144,7 +153,9 @@
                 <nav>
                     <ul class="pagination">
                         <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
-                            <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage - 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
+                            <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage - 1)"
+                                asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString"
+                                asp-route-status="@Model.Status">
                                 <i class="bi bi-chevron-left"></i>
                             </a>
                         </li>
@@ -152,14 +163,18 @@
                         @for (int i = 1; i <= Model.TotalPages; i++)
                         {
                             <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                <a class="page-link" asp-action="OrderManagement" asp-route-page="@i" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
+                                <a class="page-link" asp-action="OrderManagement" asp-route-page="@i"
+                                    asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString"
+                                    asp-route-status="@Model.Status">
                                     @i
                                 </a>
                             </li>
                         }
 
                         <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
-                            <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage + 1)" asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString" asp-route-status="@Model.Status">
+                            <a class="page-link" asp-action="OrderManagement" asp-route-page="@(Model.CurrentPage + 1)"
+                                asp-route-sortOrder="@Model.SortOrder" asp-route-searchString="@Model.SearchString"
+                                asp-route-status="@Model.Status">
                                 <i class="bi bi-chevron-right"></i>
                             </a>
                         </li>
@@ -341,4 +356,3 @@
         color: rgba(255, 255, 255, 0.3);
     }
 </style>
-

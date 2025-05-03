@@ -1,0 +1,137 @@
+@model MusicStore.Models.ArtistBrowseViewModel
+
+@{
+    ViewData["Title"] = Model.ArtistName + " Albums";
+}
+
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        min-height: 100vh;
+        padding: 2rem;
+        color: white;
+        justify-content: normal !important;
+    }
+
+    .thumbnail {
+        max-width: 90vw;
+        margin: 40px auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .thumbnail .item {
+        width: 300px;
+        height: 250px;
+        flex-shrink: 0;
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        background: #000;
+        transition: transform 0.3s;
+        text-decoration: none;
+    }
+
+    .thumbnail .item:hover {
+        transform: scale(1.05);
+    }
+
+    .thumbnail .item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+
+    .thumbnail .item .Title {
+        position: absolute;
+        bottom: 60px;
+        left: 10px;
+        right: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        text-shadow: 1px 1px 4px black;
+        z-index: 2;
+    }
+
+    .thumbnail .item .des {
+        position: absolute;
+        bottom: 35px;
+        left: 10px;
+        right: 10px;
+        color: #ccc;
+        font-size: 14px;
+        text-shadow: 1px 1px 2px black;
+        z-index: 2;
+    }
+
+    .page-title {
+        color: white;
+        font-size: 48px;
+        text-align: center;
+        margin: 60px 0;
+    }
+
+    .album-actions {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        display: flex;
+        gap: 5px;
+        z-index: 3;
+    }
+
+    .action-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: background 0.3s;
+        text-decoration: none;
+    }
+
+    .action-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+
+    .album-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    .album-content {
+        position: relative;
+        height: 100%;
+    }
+</style>
+
+<div class="hero">
+    <h1 class="page-title">@Model.ArtistName Albums</h1>
+
+    <div class="thumbnail">
+        @foreach (var album in Model.Albums)
+        {
+            <a class="item" asp-controller="Album" asp-action="Details" asp-route-id="@album.Id">
+                <img src="@(string.IsNullOrEmpty(album.coverUrl) ? "/images/default-album.jpg" : album.coverUrl)"
+                    alt="@album.Title" />
+                <div class="Title">@album.Title</div>
+                <div class="des">@album.GenreName / @album.ReleaseDate.Year</div>
+            </a>
+        }
+    </div>
+</div>

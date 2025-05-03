@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="~/CodersSportStore.styles.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-          integrity="sha512-DlBKuD6ZaRRTe9G8nDg0c/bh7l8u/4OdL8BMEqmgHITv7clfr9pZTj9xP9WzS0GyT9l1/lDGi0U27Qqtz+XYQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
+        integrity="sha512-DlBKuD6ZaRRTe9G8nDg0c/bh7l8u/4OdL8BMEqmgHITv7clfr9pZTj9xP9WzS0GyT9l1/lDGi0U27Qqtz+XYQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
@@ -45,9 +45,9 @@
             border: none;
         }
 
-            .btn-custom:hover {
-                background-color: #88a824;
-            }
+        .btn-custom:hover {
+            background-color: #88a824;
+        }
 
         .nav-link.active,
         .nav-link:hover {
@@ -141,17 +141,17 @@
             margin-top: 3rem;
         }
 
-            .nav-links a {
-                text-decoration: none;
-                color: white;
-                font-size: 2rem;
-                font-weight: bold;
-                transition: color 0.3s;
-            }
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
 
-                .nav-links a:hover {
-                    color: #00ff9f;
-                }
+        .nav-links a:hover {
+            color: #00ff9f;
+        }
 
         .footer {
             display: flex;
@@ -190,11 +190,11 @@
             background: rgba(255, 255, 255, 0.1);
         }
 
-            .auth-button:hover {
-                background: white;
-                color: black;
-                transform: translateY(-2px);
-            }
+        .auth-button:hover {
+            background: white;
+            color: black;
+            transform: translateY(-2px);
+        }
 
         .header-right {
             display: flex;
@@ -218,7 +218,10 @@
             {
                 <header class="header">
                     <div class="logo">
-                        <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo" style="height: 50px;">
+                        <a href="/">
+                            <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo"
+                                style="height: 50px;">
+                        </a>
                     </div>
                     <div class="header-right">
                         <div class="auth-buttons">
@@ -235,12 +238,12 @@
                 </header>
 
                 <main class="main-content">
-                    <nav class="nav-links">
-                        <a href="#">Album</a>
-                        <a href="#">Artist</a>
-                        <a href="#">Genre</a>
-                        <a href="#">Shop</a>
-                    </nav>
+                    @* <nav class="nav-links">
+                        <a asp-controller="Album" asp-action="Index">Album</a>
+                        <a asp-controller="Artist" asp-action="Index">Artist</a>
+                        <a asp-controller="Genre" asp-action="Index" asp-route-area="">Genre</a>
+                        <a asp-controller="Shop" asp-action="Index">Shop</a>
+                    </nav> *@
                     @RenderBody()
                 </main>
             }
@@ -322,13 +325,12 @@
                         </a>
                     </li>
 
-             
-                    <li class="nav-item">
-                        <a class="nav-link" asp-controller="Payment" asp-action="Admin">
+                    @* <li class="nav-item">
+                        <a class="nav-link" asp-controller="Order" asp-action="Index">
                             <i class="bi bi-bag-check"></i>
-                            Check Payments
+                            My Orders
                         </a>
-                    </li>
+                    </li> *@
 
                     <li class="nav-item logout-button">
                         <form method="post" asp-controller="Authentication" asp-action="Logout">
@@ -358,21 +360,20 @@
             <div class="hero">
                 <header class="header">
                     <div class="logo">
-                        <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo" style="height: 50px;">
+                        <a href="/">
+                            <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo"
+                                style="height: 50px;">
+                        </a>
                     </div>
                     <div class="header-right">
                         <div class="auth-buttons">
                             <a asp-controller="UserProfile" asp-action="Index" class="auth-button">My Profile</a>
                             <a asp-controller="Order" asp-action="Index" class="auth-button">My Orders</a>
-                            <a asp-controller="Review" asp-action="Index" class="auth-button">Product Reviewed </a>
-                            <a asp-controller="Payment" asp-action="Index" class="auth-button">My Payments </a>
-
-
 
                             <form method="post" asp-controller="Authentication" asp-action="Logout" style="display: inline;">
                                 @Html.AntiForgeryToken()
                                 <button type="submit" class="auth-button"
-                                        style="background: rgba(255, 0, 0, 0.7); border: 2px solid white;">
+                                    style="background: rgba(255, 0, 0, 0.7); border: 2px solid white;">
                                     Logout
                                 </button>
                             </form>

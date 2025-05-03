@@ -1,25 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MusicStore.Model.Abstract;
 using MusicStore.Model.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicStore.Models.Admin.Artist;
+using MusicStore.Models;
 
-namespace MusicStore.Controllers.Admin
+namespace MusicStore.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Route("admin/artists")]
+    [Route("store/artists")]
     public class ArtistController : Controller
     {
         private readonly IEntitiesRepository<ArtistEntities> _artistRepository;
         private readonly IEntitiesRepository<Genre> _genreRepository;
+        private readonly IEntitiesRepository<Album> _albumRepository;
 
-        public ArtistController(IEntitiesRepository<ArtistEntities> artistRepository, IEntitiesRepository<Genre> genreRepository)
+        public ArtistController(
+            IEntitiesRepository<ArtistEntities> artistRepository,
+            IEntitiesRepository<Genre> genreRepository,
+            IEntitiesRepository<Album> albumRepository)
         {
             _artistRepository = artistRepository;
             _genreRepository = genreRepository;
+            _albumRepository = albumRepository;
         }
 
         [HttpGet]
@@ -29,7 +33,7 @@ namespace MusicStore.Controllers.Admin
             return View(artists);
         }
 
-        [HttpGet("{id}")]
+        [Authorize]
         public IActionResult Details(int id)
         {
             var artist = _artistRepository.Get(id);
@@ -40,7 +44,35 @@ namespace MusicStore.Controllers.Admin
             return View(artist);
         }
 
-        [HttpGet("create")]
+        [HttpGet("browse/{id}")]
+        public IActionResult Browse(int id)
+        {
+            var artist = _artistRepository.Get(id);
+            if (artist == null) return NotFound();
+
+            var albums = _albumRepository.GetAll()
+                .Where(a => a.Artist == artist.Name)
+                .Select(a => new AlbumViewModel
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Artist = a.Artist,
+                    Price = a.Price,
+                    coverUrl = a.coverUrl,
+                    ReleaseDate = a.ReleaseDate,
+                    GenreName = a.Genre.Name
+                }).ToList();
+
+            var viewModel = new ArtistBrowseViewModel
+            {
+                ArtistName = artist.Name,
+                Albums = albums
+            };
+
+            return View(viewModel);
+        }
+
+        [Authorize]
         public IActionResult Create()
         {
             var genres = _genreRepository.GetAll().Select(a => new SelectListItem
@@ -57,7 +89,7 @@ namespace MusicStore.Controllers.Admin
             return View(model);
         }
 
-        [HttpPost("create")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(ArtistEntities artist)
         {
@@ -69,7 +101,7 @@ namespace MusicStore.Controllers.Admin
             return View(artist);
         }
 
-        [HttpGet("edit/{id}")]
+        [Authorize]
         public IActionResult Edit(int id)
         {
             var artist = _artistRepository.Get(id);
@@ -80,7 +112,7 @@ namespace MusicStore.Controllers.Admin
             return View(artist);
         }
 
-        [HttpPost("edit/{id}")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, ArtistEntities artist)
         {
@@ -97,7 +129,7 @@ namespace MusicStore.Controllers.Admin
             return View(artist);
         }
 
-        [HttpGet("delete/{id}")]
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var artist = _artistRepository.Get(id);
@@ -108,7 +140,7 @@ namespace MusicStore.Controllers.Admin
             return View(artist);
         }
 
-        [HttpPost("delete/{id}")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {

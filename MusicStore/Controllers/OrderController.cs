@@ -138,7 +138,7 @@ namespace MusicStore.Controllers
             if (ModelState.IsValid)
             {
 
-                
+
                 try
                 {
                     order.UpdatedAt = DateTime.UtcNow;
@@ -260,7 +260,7 @@ namespace MusicStore.Controllers
                 CustomerId = o.CustomerId,
                 OrderDate = o.OrderDate,
                 Status = o.Status,
-                TotalAmount = o.TotalAmount,
+                TotalAmount = o.OrderItems.Sum(oi => oi.Quantity * oi.UnitPrice),
                 CreatedAt = o.CreatedAt,
                 UpdatedAt = o.UpdatedAt,
                 UserId = o.Customer?.User?.Id.ToString(),
