@@ -37,7 +37,7 @@ namespace MusicStore.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authentication");
             }
 
             var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
@@ -84,7 +84,7 @@ namespace MusicStore.Controllers
             var user = _userManager.GetUserAsync(User).Result;
             if (user == null)
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Login", "Authorization");
             }
 
             var customer = _customerRepository.GetAll().FirstOrDefault(c => c.UserId == user.Id);
@@ -104,12 +104,17 @@ namespace MusicStore.Controllers
                 return RedirectToAction("Index", "Cart");
             }
 
+
+            // Calculate total amount
+            decimal totalAmount = cart.CartItems.Sum(item => item.Quantity * (item.Album?.Price ?? 0));
+
             // Create new order
             var order = new Order
             {
                 CustomerId = customer.Id,
                 OrderDate = DateTime.Now,
-                Status = OrderStatus.Pending
+                Status = OrderStatus.Pending,
+                TotalAmount = totalAmount
             };
 
             _orderRepository.Add(order);
@@ -134,7 +139,7 @@ namespace MusicStore.Controllers
 
             TempData["SuccessMessage"] = "Order placed successfully!";
             // Instead of redirecting to home, redirect to the payment page
-            return RedirectToAction("Create", "Payment", new { orderId = order.OrderId });
+            return RedirectToAction("Create", "Payment", new { orderId = order.OrderId , amount = totalAmount });
             //return RedirectToAction("Index", "Home");
         }
 

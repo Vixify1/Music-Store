@@ -179,6 +179,7 @@ namespace MusicStore.Controllers
                     PaymentDate = DateTime.Now,
                     PaymentStatus = "Completed",
                     TransactionId = Guid.NewGuid().ToString()
+
                 };
 
                 _paymentRepository.Add(payment);
