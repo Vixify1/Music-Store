@@ -225,11 +225,21 @@
                     </table>
                 </div>
 
-                <div class="mt-4">
-                    <a asp-action="OrderManagement" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left me-2"></i> Back to Orders
-                    </a>
-                </div>
+                <div>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="OrderManagement" class="btn btn-danger">
+                            <i class="fas fa-arrow-left me-2"></i> Back to Orders
+                        </a>
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Back to Orders
+                        </a>
+                    }
+
+                    </div>
             </div>
         </div>
     </div>
