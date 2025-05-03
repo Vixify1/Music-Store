@@ -125,15 +125,12 @@
                             <dt class="col-sm-4">Method:</dt>
                             <dd class="col-sm-8">@Model.PaymentMethod</dd>
 
-                            <dt class="col-sm-4">Status:</dt>
-                            <dd class="col-sm-8">
-                                <span class="badge @(Model.PaymentStatus == "Completed" ? "bg-success" :
-                                                  Model.PaymentStatus == "Pending" ? "bg-warning" :
-                                                  Model.PaymentStatus == "Failed" ? "bg-danger" : "bg-secondary")">
+                            <dt class="col-sm-4">Status: 
+                         
+                               <dd>
                                     @Model.PaymentStatus
-                                </span>
-                            </dd>
-
+                                </dd>
+                            </dt>
                             <dt class="col-sm-4">Transaction ID:</dt>
                             <dd class="col-sm-8">@Model.TransactionId</dd>
                         </dl>

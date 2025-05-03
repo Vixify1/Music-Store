@@ -78,19 +78,19 @@ public class WishlistController : Controller
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> AddToWishlist(int Id)
+    public async Task<IActionResult> AddToWishlist(int albumId)
     {
         try
         {
             int customerId = await GetCurrentCustomerIdAsync();
 
 
-            //// TESTING ONLY: Force Id to 1
+            ////// TESTING ONLY: Force Id to 1
             //Id = 1;
 
             // Check if Album already exists in wishlist
             var existingItem = _wishlistRepository.Get(
-                w => w.CustomerId == customerId && w.AlbumId == Id);
+                w => w.CustomerId == customerId && w.AlbumId == albumId);
 
             if (existingItem != null)
             {
@@ -100,7 +100,7 @@ public class WishlistController : Controller
             // Create new wishlist item
             var wishlistItem = new Wishlist
             {
-                AlbumId = Id,
+                AlbumId = albumId,
                 CustomerId = customerId,
                 CreatedAt = DateTime.Now
             };
