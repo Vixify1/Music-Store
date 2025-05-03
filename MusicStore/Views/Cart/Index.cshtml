@@ -32,23 +32,25 @@
                                 <p class="fw-bold">@item.Price.ToString("C")</p>
                             </div>
                             <div class="col-md-6 d-flex align-items-center justify-content-end">
-                                <div class="input-group me-3" style="width: 120px;">
-                                    <a asp-action="DecreaseQuantity" asp-route-id="@item.CartItemId" class="btn btn-secondary">-</a>
-                                    <input type="text" class="form-control text-center bg-dark border-secondary text-white" value="@item.Quantity" readonly>
-                                    <a asp-action="IncreaseQuantity" asp-route-id="@item.CartItemId" class="btn btn-secondary">+</a>
+                                <div class="input-group me-3" style="width: 220px;">
+                                    <a asp-action="DecreaseQuantity" asp-route-id="@item.CartItemId"
+                                        class="btn btn-secondary">-</a>
+                                    <input type="text" class="form-control text-center bg-dark border-secondary text-white"
+                                        value="@item.Quantity" readonly>
+                                    <a asp-action="IncreaseQuantity" asp-route-id="@item.CartItemId"
+                                        class="btn btn-secondary">+</a>
                                 </div>
                                 <div class="me-3">
                                     <strong>@item.Subtotal.ToString("C")</strong>
                                 </div>
                                 <div>
                                     <a asp-action="Delete" asp-route-id="@item.CartItemId" class="btn btn-danger btn-sm">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="bi bi-trash"></i>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 }
 
                 <!-- Coupon Code -->
@@ -67,7 +69,6 @@
                 @* </div> *@
             </div>
 
-            <!-- Cart Totals -->
             <!-- Cart Totals -->
             <div class="col-lg-4">
                 <div class="card p-4 bg-dark text-white">
@@ -95,17 +96,18 @@
                     <!-- Apply Coupon Inside Totals Card -->
                     <form method="post" asp-action="ApplyCoupon" class="mb-3">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-dark border-secondary text-white" placeholder="Paste coupon code here" name="CouponCode">
+                            <input type="text" class="form-control bg-dark border-secondary text-white"
+                                placeholder="Paste coupon code here" name="CouponCode">
                             <button type="submit" class="btn btn-light">Apply Coupon</button>
                         </div>
                     </form>
 
-                    <a href="@Url.Action("Index", "Checkout")" class="btn btn-success btn-lg w-100 mb-2">Proceed to Checkout</a>
+                    <a href="@Url.Action("Index", "Checkout")" class="btn btn-success btn-lg w-100 mb-2">Proceed to
+                        Checkout</a>
 
                     <a href="@Url.Action("Clear", "Cart")" class="btn btn-danger w-100">Clear Cart</a>
                 </div>
             </div>
-
         </div>
     }
 </div>

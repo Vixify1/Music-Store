@@ -3,86 +3,277 @@
     ViewData["Title"] = "Album";
 }
 
+<style>
+    .hero {
+        background: url('/images/background.png') no-repeat center center/cover;
+        background-color: #000;
+        min-height: 100vh;
+        padding: 2rem;
+        color: white;
+        justify-content: normal !important;
+    }
+
+    .container-glass {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    .page-title {
+        color: white;
+        font-size: 48px;
+        text-align: center;
+        margin: 60px 0;
+    }
+
+    .table {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.2);
+        margin-bottom: 0;
+    }
+
+    .table th,
+    .table td {
+        color: white;
+        border-color: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+    }
+
+    .table thead th {
+        background: rgba(0, 255, 159, 0.2);
+        border-bottom: 1px solid rgba(0, 255, 159, 0.3);
+        font-weight: 600;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn {
+        border-radius: 15px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        margin: 0.25rem;
+    }
+
+    .btn-success {
+        background: rgba(40, 167, 69, 0.8);
+        border: none;
+    }
+
+    .btn-success:hover {
+        background: rgba(40, 167, 69, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-admin {
+        background: rgba(0, 123, 255, 0.8);
+        border: none;
+        color: white;
+    }
+
+    .btn-admin:hover {
+        background: rgba(0, 123, 255, 1);
+        transform: translateY(-2px);
+    }
+
+    .btn-admin.delete {
+        background: rgba(220, 53, 69, 0.8);
+    }
+
+    .btn-admin.delete:hover {
+        background: rgba(220, 53, 69, 1);
+    }
+
+    .search-container {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        justify-content: center;
+    }
+
+    .search-container input {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        width: 300px;
+    }
+
+    .search-container input::placeholder {
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .album-cover {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border-radius: 5px;
+    }
+
+    /* Non-admin styles */
+    .thumbnail {
+        max-width: 90vw;
+        margin: 40px auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 24px;
+        justify-content: center;
+        padding: 20px 0;
+    }
+
+    .thumbnail .item {
+        width: 300px;
+        height: 250px;
+        flex-shrink: 0;
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        background: #000;
+        transition: transform 0.3s;
+        text-decoration: none;
+    }
+
+    .thumbnail .item:hover {
+        transform: scale(1.05);
+    }
+
+    .thumbnail .item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+
+    .thumbnail .item .Title {
+        position: absolute;
+        bottom: 35px;
+        left: 10px;
+        right: 10px;
+        color: white;
+        font-weight: bold;
+        font-size: 16px;
+        text-shadow: 1px 1px 4px black;
+    }
+
+    .thumbnail .item .des {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        color: #ccc;
+        font-size: 14px;
+        text-shadow: 1px 1px 2px black;
+    }
+</style>
+
 <div class="hero">
     <div class="container-glass">
         <h2 class="page-title">Albums</h2>
 
         @if (User.IsInRole("Admin"))
         {
-            <p>
-                <a asp-action="Create" class="btn btn-success mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <a asp-action="Create" class="btn btn-success">
                     <i class="bi bi-plus-circle"></i> Create New Album
                 </a>
-            </p>
-        }
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search albums..." onkeyup="searchTable()">
+                </div>
+            </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Release Date</th>
-                    <th>Genre</th>
-                    <th>Price</th>
-                    <th>Cover</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>@item.Title</td>
-                        <td>@item.Artist</td>
-                        <td>@item.ReleaseDate.ToString("yyyy-MM-dd")</td>
-                        <td>@item.GenreName</td>
-                        <td>@item.Price.ToString("C")</td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(item.coverUrl))
-                            {
-                                <img src="@item.coverUrl" alt="@item.Title" class="cover-image" />
-                            }
-                        </td>
-                        <td>
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <div class="d-flex">
-                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-admin details">
-                                        <i class="bi bi-eye"></i> Details
-                                    </a>
-                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-admin edit">
+                        <th>Cover</th>
+                        <th>Title</th>
+                        <th>Artist</th>
+                        <th>Genre</th>
+                        <th>Price</th>
+                        <th>Release Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var album in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@(string.IsNullOrEmpty(album.coverUrl) ? "/images/default-album.jpg" : album.coverUrl)"
+                                    alt="@album.Title" class="album-cover" />
+                            </td>
+                            <td>@album.Title</td>
+                            <td>@album.Artist</td>
+                            <td>@album.GenreName</td>
+                            <td>$@album.Price.ToString("F2")</td>
+                            <td>@album.ReleaseDate.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a asp-action="Edit" asp-route-id="@album.Id" class="btn btn-admin edit">
                                         <i class="bi bi-pencil"></i> Edit
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-admin delete">
+                                    <a asp-action="Delete" asp-route-id="@album.Id" class="btn btn-admin delete">
                                         <i class="bi bi-trash"></i> Delete
                                     </a>
                                 </div>
-                            }
-                            else
-                            {
-                                <div class="d-flex flex-column">
-                                    <form asp-controller="Cart" asp-action="AddToCart" method="post" class="d-flex align-items-center">
-                                        <input type="hidden" name="albumId" value="@item.Id" />
-                                        <div class="input-group">
-                                            <input type="number" name="quantity" value="1" min="1" class="form-control" />
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="fas fa-cart-plus"></i> Add to Cart
-                                            </button>
-                                        </div>
-                                    </form>
-
-                                    <form asp-controller="Wishlist" asp-action="AddToWishlist" method="post" class="wishlist-form">
-                                        <input type="hidden" name="Id" value="@item.Id" />
-                                        <button type="submit" class="btn btn-outline-danger">
-                                            <i class="bi bi-heart"></i> Add to Wishlist
-                                        </button>
-                                    </form>
-                                </div>
-                            }
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="thumbnail">
+                @foreach (var album in Model)
+                {
+                    <a class="item" asp-action="Details" asp-route-id="@album.Id">
+                        <img src="@(string.IsNullOrEmpty(album.coverUrl) ? "/images/default-album.jpg" : album.coverUrl)"
+                            alt="@album.Title" />
+                        <div class="Title">@album.Title</div>
+                        <div class="des">@album.GenreName / @album.ReleaseDate.Year</div>
+                    </a>
                 }
-            </tbody>
-        </table>
+            </div>
+        }
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function searchTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toUpperCase();
+            const table = document.querySelector(".table");
+            const tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                let found = false;
+                const td = tr[i].getElementsByTagName("td");
+
+                for (let j = 0; j < td.length - 1; j++) { // Skip the last column (actions)
+                    if (td[j]) {
+                        const txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                tr[i].style.display = found ? "" : "none";
+            }
+        }
+    </script>
+}

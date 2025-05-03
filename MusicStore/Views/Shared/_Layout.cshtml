@@ -218,7 +218,10 @@
             {
                 <header class="header">
                     <div class="logo">
-                        <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo" style="height: 50px;">
+                        <a href="/">
+                            <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo"
+                                style="height: 50px;">
+                        </a>
                     </div>
                     <div class="header-right">
                         <div class="auth-buttons">
@@ -235,12 +238,12 @@
                 </header>
 
                 <main class="main-content">
-                    <nav class="nav-links">
-                        <a href="#">Album</a>
-                        <a href="#">Artist</a>
-                        <a href="#">Genre</a>
-                        <a href="#">Shop</a>
-                    </nav>
+                    @* <nav class="nav-links">
+                        <a asp-controller="Album" asp-action="Index">Album</a>
+                        <a asp-controller="Artist" asp-action="Index">Artist</a>
+                        <a asp-controller="Genre" asp-action="Index" asp-route-area="">Genre</a>
+                        <a asp-controller="Shop" asp-action="Index">Shop</a>
+                    </nav> *@
                     @RenderBody()
                 </main>
             }
@@ -357,7 +360,10 @@
             <div class="hero">
                 <header class="header">
                     <div class="logo">
-                        <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo" style="height: 50px;">
+                        <a href="/">
+                            <img src="/images/84aa896c-34b5-4972-a0c8-372832921330.png" alt="MusicStore Logo"
+                                style="height: 50px;">
+                        </a>
                     </div>
                     <div class="header-right">
                         <div class="auth-buttons">
